@@ -1,0 +1,93 @@
+create table utilisateur (
+	iduti int primary key not null,
+	statut varchar(10),
+	nom varchar(20),
+	prenom varchar(20),
+	Pseudo varchar(20),
+	email varchar(30),
+	mdp varchar(30)
+	);
+
+create table Touit (
+	idtouit int primary key not null,
+	iduti int,
+	text varchar(235),
+	date Date
+	);
+
+create table Tag (
+	idtag int primary key not null,
+	Libellé varchar(20),
+	description varchar(100)
+	);
+
+create table Image (
+	idimg int primary key not null,
+	description varchar(100),
+	chemmin varchar(50),
+	idtouit int
+	);
+
+create table Suivi (
+	iduti1 int not null,
+	iduti2 int not null,
+    CONSTRAINT PK_suivi PRIMARY KEY (iduti1 , iduti2)
+	);
+
+create table SuiviTag (
+	iduti int not null,
+	idtag int not null,
+    CONSTRAINT PK_suivitag PRIMARY KEY (iduti , idtag)
+	);
+    
+create table TouitTag (
+	idtouit int not null,
+	idtag int not null,
+    CONSTRAINT PK_suivitag PRIMARY KEY (idtouit , idtag)
+	);
+
+create table Liker (
+	iduti int not null,
+	idtouit int not null,
+    CONSTRAINT PK_liker PRIMARY KEY (iduti , idtouit)
+	);
+
+ALTER TABLE Touit
+   ADD CONSTRAINT FK_touit_uti FOREIGN KEY (iduti)
+      REFERENCES utilisateur (iduti);
+
+ALTER TABLE Image
+   ADD CONSTRAINT FK_image_touit FOREIGN KEY (idtouit)
+      REFERENCES Touit (idtouit);
+
+ALTER TABLE Suivi
+   ADD CONSTRAINT FK_uti1_uti FOREIGN KEY (iduti1)
+      REFERENCES utilisateur (iduti);
+
+ALTER TABLE Suivi
+   ADD CONSTRAINT FK_uti2_uti FOREIGN KEY (iduti2)
+      REFERENCES utilisateur (iduti);
+
+ALTER TABLE SuiviTag
+   ADD CONSTRAINT FK_suivtag_uti FOREIGN KEY (iduti)
+      REFERENCES utilisateur (iduti);
+
+ALTER TABLE SuiviTag
+   ADD CONSTRAINT FK_suivtag_tag FOREIGN KEY (idtag)
+      REFERENCES tag (idtag);
+
+ALTER TABLE TouitTag
+   ADD CONSTRAINT FK_touittag_touit FOREIGN KEY (idtouit)
+      REFERENCES Touit (idtouit);
+
+ALTER TABLE TouitTag
+   ADD CONSTRAINT FK_touittag_tag FOREIGN KEY (idtag)
+      REFERENCES Tag (idtag);
+
+ALTER TABLE Liker
+   ADD CONSTRAINT FK_liker_touit FOREIGN KEY (idtouit)
+      REFERENCES Touit (idtouit);
+
+ALTER TABLE Liker
+   ADD CONSTRAINT FK_liker_uti FOREIGN KEY (iduti)
+      REFERENCES utilisateur (iduti);
