@@ -3,7 +3,9 @@
 class User {
   -string email
   -string password
-  -string role
+  -int role
+  
+  +User(string email, string password, int role = 1)
   
   +getTouite() : TouiteList
   +getFollower() : list<User>
@@ -21,18 +23,19 @@ class Touite {
   -String text
   -String srcImage
   -int datePublication
+  -int score
   -List<Tag> tags
   
   +Touite(string author, string text, int datePublication, string srcImage = "")
   
   +{static}static findTag(string text) : List<Tag>
   +{static}static getAllTouite() : List<Touite>
-  +{static}static touiteATouite(User author, string text, string srcImage = "") : List<Tag>
+  +{static}static publishTouite(User author, string text, string srcImage = "") : List<Tag>
   
-  +evaluateTouite(int evaluation)
+  +evaluateTouite(User user, bool evalPositive)
   +displayTouiteSimple() : string
   +displayTouiteDetail() : string
-  +deleteTouite()
+  +deleteTouite(User user)
 }
 
 Touite "*" <-- "1" User : author
@@ -58,6 +61,7 @@ class TouiteList {
   +displayAllTouite() : string
   +displayPage(int page) : string
   +size() : int
+  +getScoreMoyen() : float
 }
 
 TouiteList "*" <-- "*" Touite : touites
