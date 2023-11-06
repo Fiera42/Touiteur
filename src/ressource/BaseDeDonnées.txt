@@ -1,0 +1,85 @@
+Utilisateur : 
+
+iduti : identifiant de l'utilisateur (clé primaire) 
+
+Statut : le statut de l’utilisateur (admin , inscrit ou lambda) 
+
+Nom : Nom de l'utilisateur 
+
+Prénom : Prénom de l'utilisateur 
+
+Pseudo : Pseudo de l’utilisateur 
+
+Email : Mail de l'utilisateur 
+
+mdp : mot de passe de l'utilisateur (crypté) 
+
+  
+
+Touit :  
+
+idtouit : identifiant du touit (clé primaire) 
+
+iduti : identifiant de l'auteur du touit (clé etranger référence : Utilisateur) 
+
+text : Le Touit  
+
+Date : Date de publication du touit 
+
+  
+
+Tag : 
+
+idtag : identifiant du tag (clé primaire) 
+
+Libellé : Nom du tag 
+
+Description : descriptif du tag 
+
+  
+
+Image : 
+
+idimg : identifiant de l'image (clé primaire) 
+
+Description : descriptif de l'image 
+
+Chemin : chemin d'accès vers l'image 
+
+idtouit : identifiant du touit associé à l'image (clé étranger référence : Touit) 
+
+  
+
+Suivi : 
+
+iduti1 : identifiant du suiveur (clé primaire) (clé étranger référence : Utilisateur) 
+
+iduti2 : identifiant du suivi (clé primaire) (clé étranger référence : Utilisateur) 
+
+  
+
+  
+
+ 
+
+SuiviTag : 
+
+iduti : identifiant du suiveur (clé primaire) (clé étranger référence : Utilisateur) 
+
+idtag : identifiant du tag suivi (clé primaire) (clé étranger référence : Tag) 
+
+  
+
+TwouitTag : 
+
+idtouit : identifiant du touit (clé primaire) (clé étranger référence : Touit) 
+
+idtag : identifiant du tag associé (clé primaire) (clé étranger référence : Tag) 
+
+  
+
+Liker : 
+
+iduti : identifiant du likeur (clé primaire)  (clé étranger référence : Utilisateur) 
+
+idtouit : identifiant du touit liker (clé primaire) (clé étranger référence : Touit ) 
