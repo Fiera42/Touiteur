@@ -1,6 +1,5 @@
 <?php
-namespace touiteur\src;
-
+namespace touiteur;
 
 use touiteur\src\Action\ActionAbonnerTag;
 use touiteur\src\Action\ActionDetail;

@@ -1,6 +1,6 @@
 <?php
 
-namespace iutnc\touiteur\auth;
+namespace touiteur\auth;
 use PDO;
 
 class ConnexionFactory {

@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\src\Action;
+namespace touiteur\action;
 
 class ActionEvaluer extends Action
 {

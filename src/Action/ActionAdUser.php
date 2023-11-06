@@ -1,9 +1,9 @@
 <?php
 
-namespace touiteur\src\Action;
+namespace touiteur\action;
 
-use touiteur\src\Action\Action as Action;
-use touiteur\src\Auth\Auth as Auth;
+use touiteur\Action\Action;
+use touiteur\Auth\Auth;
 
 class ActionAdUser extends Action
 {
