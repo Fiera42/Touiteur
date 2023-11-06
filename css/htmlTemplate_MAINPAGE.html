@@ -20,6 +20,13 @@
     </nav>
 
     <div id="feed">
+        <!-- NOTE : only visible for connected user-->
+        <form method="post" action="htmlTemplate_MAINPAGE.html?action=post">
+            <input type="text" name="text" placeholder="Votre incroyable touite ici">
+            <input type="file" name="img">
+            <button type="submit">Envoyer le touite</button>
+        </form>
+
         <!-- TO DO : MAKE THE CONTAINER CLICKABLE TO SHOW THE TOUITE IN BIG AND WITH THE PICTURE -->
         <!-- probly do that in javascript -->
         <div class="touite">
