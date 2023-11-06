@@ -1,0 +1,87 @@
+@startuml
+
+class User {
+  -string email
+  -string password
+  -string role
+  
+  +getTouite() : TouiteList
+  +getFollower() : list<User>
+  +getFollowing() : list<User>
+  +getFollowedTag() : list<Tag>
+  
+  +followUser(User target)
+  +followTag(Tag target)
+  +unFollowUser(User target)
+  +unFollowTag(Tag target)
+}
+
+class Touite {
+  -User author
+  -String text
+  -String srcImage
+  -int datePublication
+  -List<Tag> tags
+  
+  +Touite(string author, string text, int datePublication, string srcImage = "")
+  
+  +{static}static findTag(string text) : List<Tag>
+  +{static}static touiteATouite(User author, string text, string srcImage = "") : List<Tag>
+  
+  +evaluateTouite(int evaluation)
+  +displayTouiteSimple() : string
+  +displayTouiteDetail() : string
+  +deleteTouite()
+}
+
+Touite "*" <-- "1" User : author
+Touite "*" <-- "*" Tag : tags
+
+class Tag {
+  -String name;
+  -int nbUsage
+  
+  +Tag(string name)
+  
+  +getTouiteListFromTag() : TouiteList
+  +updateNbUsage()
+}
+
+class TouiteList {
+  -List<Touite> touites
+  -int nbTouitePerPage
+  
+  +addTouite(Touite touite)
+  +removeTouite(Touite touite)
+  
+  +displayAllTouite() : string
+  +displayPage(int page) : string
+  +size() : int
+}
+
+TouiteList "*" <-- "*" Touite : touites
+
+class Auth {
+  +{static}static register(string email, string password, int role = 1) : bool
+  +{static}static authenticate(string email, string password) : bool
+  +{static}static checkAccessLevel(int required) : bool
+  +{static}static checkPasswordStrength(string password, int minimumLength) : bool
+}
+
+class ConnexionFactory {
+  +{static} PDO db
+  +{static} array config
+  
+  +{static} setConfig(file)
+  +{static} makeConnection()
+}
+
+class Action {
+  +execute() : string
+}
+
+class AfficherMur extends Action{
+
+}
+
+@enduml
