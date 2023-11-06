@@ -51,6 +51,18 @@ nav {
     grid-column: 1/2;
 }
 
+form.post {
+    border: 3px black solid;
+    border-radius: 2px;
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    margin-bottom: 1em;
+}
+
 @media (max-width:900px) {
 	nav {
         flex-direction: row;
