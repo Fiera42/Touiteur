@@ -1,0 +1,46 @@
+@startuml
+
+participant "navigateur" AS navigateur
+participant "index.php" AS index
+participant "AfficherMur.php" AS mur
+participant "User" AS user
+participant "touiteList" AS touiteList
+
+navigateur -> index : GET index.php
+activate index
+
+index -> mur : execute()
+activate mur
+
+alt connecté
+  mur -> user : getFollowingTouite()
+  activate user
+  create touiteList
+  user -> touiteList : new
+  mur <-- user : touiteList
+  deactivate user
+
+else non connecté
+  mur -> Touite : getAllTouite()
+  activate Touite
+  create touiteList
+  Touite -> touiteList : new
+  mur <-- Touite : touiteList
+  deactivate Touite
+
+end
+
+mur -> touiteList : displayPage(1) OU displayAllTouite()
+activate touiteList
+mur <-- touiteList : string touites
+deactivate touiteList
+
+
+
+index <-- mur : string page
+deactivate mur
+
+navigateur <-- index : string page
+deactivate index
+
+@enduml
