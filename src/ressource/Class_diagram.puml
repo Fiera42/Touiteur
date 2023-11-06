@@ -26,6 +26,7 @@ class Touite {
   +Touite(string author, string text, int datePublication, string srcImage = "")
   
   +{static}static findTag(string text) : List<Tag>
+  +{static}static getAllTouite() : List<Touite>
   +{static}static touiteATouite(User author, string text, string srcImage = "") : List<Tag>
   
   +evaluateTouite(int evaluation)
