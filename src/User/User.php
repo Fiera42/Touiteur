@@ -32,10 +32,7 @@ class User {
     function getTouit() : TouiteList {
         ConnexionFactory::makeConnection();
 
-        $query = "SELECT text, date from touit 
-                join touiteuruser on touit.idUser = touiteuruser.idUser 
-                left join image on touit.idtouit = image.idtouit
-                where touiteuruser.iduser = ?";
+        $query = "SELECT text, date from touit where iduser = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -132,19 +129,56 @@ where followtag.idFollower = ?";
     function followUser(User $target){
         ConnexionFactory::makeConnection();
 
-        $query = "";
+        $query = "insert into followUser values (? , ?)";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
         $prepared_query->bindParam(1, $this->id, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(2, $target->id, PDO::PARAM_STR, 32);
 
         $prepared_query->execute();
     }
 
-    function followTag(Tag $target){}
+    function followTag(Tag $target){
+        ConnexionFactory::makeConnection();
 
-    function UnfollowUser(User $target){}
+        $query = "insert into followTag values (? , ?)";
 
-    function UnfollowTag(Tag $target){}
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+
+        $prepared_query->bindParam(1, $this->id, PDO::PARAM_STR, 32);
+        $id = $target->getId();
+        $prepared_query->bindParam(2, $id, PDO::PARAM_STR, 32);
+
+        $prepared_query->execute();
+    }
+
+    function UnfollowUser(User $target){
+        ConnexionFactory::makeConnection();
+
+        $query = "delete from followUser where iduser = ? and idfollower = ?";
+
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $id = $target->getId();
+        $prepared_query->bindParam(1, $id, PDO::PARAM_STR, 32);
+
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_STR, 32);
+
+        $prepared_query->execute();
+    }
+
+    function UnfollowTag(Tag $target){
+        ConnexionFactory::makeConnection();
+
+        $query = "delete from followTag where idtag = ? and idfollower = ?";
+
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $id = $target->getId();
+        $prepared_query->bindParam(1, $id, PDO::PARAM_STR, 32);
+
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_STR, 32);
+
+        $prepared_query->execute();
+    }
 
 }
