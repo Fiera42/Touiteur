@@ -1,43 +1,44 @@
-create table utilisateur (
-	iduti int primary key not null,
-	statut varchar(10),
-	nom varchar(20),
-	prenom varchar(20),
-	Pseudo varchar(20),
+create table TouiteurUser (
+	idUser int primary key not null,
+	role varchar(10),
+	name varchar(20),
+	fullname varchar(20),
 	email varchar(30),
-	mdp varchar(30)
+	password varchar(30)
 	);
 
 create table Touit (
 	idtouit int primary key not null,
-	iduti int,
+	idUser int,
 	text varchar(235),
-	date Date
+	date Date,
+	note int
 	);
 
 create table Tag (
 	idtag int primary key not null,
-	Libellé varchar(20),
-	description varchar(100)
+	tagName varchar(20),
+	description varchar(100),
+	nbUsage int
 	);
 
 create table Image (
-	idimg int primary key not null,
-	description varchar(100),
-	chemmin varchar(50),
+	idimage int primary key not null,
+	altImage varchar(100),
+	imagePath varchar(50),
 	idtouit int
 	);
 
-create table Suivi (
-	iduti1 int not null,
-	iduti2 int not null,
-    CONSTRAINT PK_suivi PRIMARY KEY (iduti1 , iduti2)
+create table FollowUser (
+	idUser int not null,
+	idFollower int not null,
+    CONSTRAINT PK_suivi PRIMARY KEY (idUser , idFollower)
 	);
 
-create table SuiviTag (
-	iduti int not null,
-	idtag int not null,
-    CONSTRAINT PK_suivitag PRIMARY KEY (iduti , idtag)
+create table FollowTag (
+	idTag int not null,
+	idFollower int not null,
+    CONSTRAINT PK_suivitag PRIMARY KEY (idTag , idFollower)
 	);
     
 create table TouitTag (
@@ -46,35 +47,36 @@ create table TouitTag (
     CONSTRAINT PK_suivitag PRIMARY KEY (idtouit , idtag)
 	);
 
-create table Liker (
-	iduti int not null,
+create table VoteTouit (
+	idUser int not null,
 	idtouit int not null,
-    CONSTRAINT PK_liker PRIMARY KEY (iduti , idtouit)
+	eval boolean,
+    CONSTRAINT PK_liker PRIMARY KEY (idUser , idtouit)
 	);
 
 ALTER TABLE Touit
-   ADD CONSTRAINT FK_touit_uti FOREIGN KEY (iduti)
-      REFERENCES utilisateur (iduti);
+   ADD CONSTRAINT FK_touit_uti FOREIGN KEY (idUser)
+      REFERENCES TouiteurUser (idUser);
 
 ALTER TABLE Image
    ADD CONSTRAINT FK_image_touit FOREIGN KEY (idtouit)
       REFERENCES Touit (idtouit);
 
-ALTER TABLE Suivi
-   ADD CONSTRAINT FK_uti1_uti FOREIGN KEY (iduti1)
-      REFERENCES utilisateur (iduti);
+ALTER TABLE FollowUser
+   ADD CONSTRAINT FK_uti1_uti FOREIGN KEY (idUser)
+      REFERENCES TouiteurUser (idUser);
 
-ALTER TABLE Suivi
-   ADD CONSTRAINT FK_uti2_uti FOREIGN KEY (iduti2)
-      REFERENCES utilisateur (iduti);
+ALTER TABLE FollowUser
+   ADD CONSTRAINT FK_uti2_uti FOREIGN KEY (idFollower)
+      REFERENCES TouiteurUser (idUser);
 
-ALTER TABLE SuiviTag
-   ADD CONSTRAINT FK_suivtag_uti FOREIGN KEY (iduti)
-      REFERENCES utilisateur (iduti);
+ALTER TABLE FollowTag
+   ADD CONSTRAINT FK_suivtag_uti FOREIGN KEY (idtag)
+      REFERENCES TouiteurUser (idUser);
 
-ALTER TABLE SuiviTag
-   ADD CONSTRAINT FK_suivtag_tag FOREIGN KEY (idtag)
-      REFERENCES tag (idtag);
+ALTER TABLE FollowTag
+   ADD CONSTRAINT FK_suivtag_tag FOREIGN KEY (idTag)
+      REFERENCES tag (idTag);
 
 ALTER TABLE TouitTag
    ADD CONSTRAINT FK_touittag_touit FOREIGN KEY (idtouit)
@@ -84,10 +86,10 @@ ALTER TABLE TouitTag
    ADD CONSTRAINT FK_touittag_tag FOREIGN KEY (idtag)
       REFERENCES Tag (idtag);
 
-ALTER TABLE Liker
+ALTER TABLE VoteTouit
    ADD CONSTRAINT FK_liker_touit FOREIGN KEY (idtouit)
       REFERENCES Touit (idtouit);
 
-ALTER TABLE Liker
-   ADD CONSTRAINT FK_liker_uti FOREIGN KEY (iduti)
-      REFERENCES utilisateur (iduti);
+ALTER TABLE VoteTouit
+   ADD CONSTRAINT FK_liker_uti FOREIGN KEY (idUser)
+      REFERENCES TouiteurUser (idUser);
