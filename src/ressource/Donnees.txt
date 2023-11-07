@@ -1,0 +1,89 @@
+TouiteurUser
+
+name : Michel
+fullName : Drucker
+email : m.drucker@gmail.com
+role : 1
+
+name : Patrique
+fullName : Sébastien
+email : PatSeb@gmail.com
+role 1
+
+name : Patrique
+fullName : Balkany
+email : Balka239@laposte.net
+
+
+
+Touit
+
+User : Michel drucker
+Text : Salut à tous c'est michel drucker, le vrai, pas du tout une copie
+Note : 1
+
+User : Patrique Balkany
+Text : Incroyable, michel, moi aussi je suis le vrai Patrique balkany
+Note : -1
+
+Touit : Patrique sébastien
+Text : Voici la pochette de mon nouvel album
+Note : 2
+
+
+
+Image
+
+altImage : La pochette de mon album
+imagePath : userImage/id_nomDeFichier.png
+Touit : (le touite de patrick sebatien)
+
+
+
+Tag
+
+tagName : musique
+description : des touite parlant de musique
+nbUsage : 1
+
+
+
+Follow
+
+balkany suit sébastien
+drucker suit sébastien
+balkany suit drucker
+
+
+
+Follow TAG
+
+sébatien suit musique
+drucker suit musique
+
+
+
+Touit tag
+
+le touite de patrick à "musique" en tag
+
+
+
+Vote touite
+
+
+Touite : touite de drucker
+User : drucker
+note : VRAI
+
+Touite : touite de balkany
+user : drucker
+note : FAUX
+
+Touite : touite de sebastien
+user : drucker
+note : VRAI
+
+Touite : touite de sebastien
+user : balkany
+note : VRAI
