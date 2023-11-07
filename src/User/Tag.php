@@ -2,20 +2,22 @@
 
 namespace touiteur\Tag;
 
+use touiteur\TouiteList\TouiteList;
+
 class Tag{
     private string $name;
     private int $nbUsage;
 
-    public Tag(string $name){
+    public function __construct(String $name){
         $this->name = $name;
-        $this->$nbUsage = 0;
+        $this->nbUsage = 0;
     }
 
-    public TouiteListe getTouiteListFromTag(){
+    public function getTouiteListFromTag() :TouiteList{
         //TO DO
     }
 
-    public void updateNbUsage(){
-        $this->$nbUsage ++;
+    function updateNbUsage(){
+        $this->nbUsage ++;
     }
 }
