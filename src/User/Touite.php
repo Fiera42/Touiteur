@@ -91,7 +91,30 @@ return $reponse;
 
     static function publishTouite(User $aut,string $t) : array
     {
+        ConnexionFactory::makeConnection();
+        $pdo = ConnexionFactory::$db;
+        $query = "Select TagName from TAG";
+        $prepared = $pdo->prepare($query);
+        $list = Touite::findTag($t);
 
+
+        foreach ($list as $value) {
+            $trouve = false;
+            $prepared->execute();
+            while ($donne = $prepared->fetch()) {
+                if ($value == $donne['TagName']) {
+                    $trouve = true;
+                }
+            }
+
+            if ($trouve = true) {
+                $query = "Update table Tag set nbUsage=nbUsage+1 where TagName= $value";
+                $value='';
+            } else {
+                $query = "Insert into Tag values ($value,'une descrpiption',1)";
+            }
+        }
+        return $list;
     }
 
 
