@@ -4,6 +4,7 @@ body {
 
     column-gap: 10px;
     background-color: aquamarine;
+    font-family: Georgia, serif;
 }
 
 div#feed {
@@ -94,13 +95,17 @@ nav {
     grid-column: 1/2;
 }
 
-div#user{
+div#followable{
     text-align: center;
 }
 
 
 button.stylized {
     width: 100%;
+    background-color: bisque;
+    font-size: 1.2em;
+    border-radius: 20px;
+    margin-bottom: 0.5em;
 }
 
 
