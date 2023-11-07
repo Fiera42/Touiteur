@@ -73,7 +73,8 @@ return $res;
 
  static function getAllTouite() : array
 {
-$pdo=ConnexionFactory::makeconexion();
+    ConnexionFactory::makeConnection();
+$pdo=ConnexionFactory::$db;
     $query="Select * from touite";
     $prepared = $pdo->prepare($query);
 $prepared->execute();
