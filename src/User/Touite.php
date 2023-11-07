@@ -108,7 +108,7 @@ return $reponse;
             }
 
             if ($trouve = true) {
-                $query = "Update table Tag set nbUsage=nbUsage+1 where TagName= $value";
+                $query = "Update Tag set nbUsage=nbUsage+1 where TagName= $value";
                 $value='';
             } else {
                 $query = "Insert into Tag values ($value,'une descrpiption',1)";
