@@ -99,7 +99,8 @@ return $reponse;
 
     public function evaluateTouite(User $user,bool $eval)
     {
-        $pdo=ConnexionFactory::makeconexion();
+        ConnexionFactory::makeConnection();
+        $pdo=ConnexionFactory::$db;
         $query="Select count(eval) from VoteTouite where iduser = ? and idTouite";
         $prepared = $pdo->prepare($query);
         $prepared->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
