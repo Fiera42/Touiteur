@@ -112,7 +112,7 @@ VALUES
 -- Insertion de données dans la table Image
 INSERT INTO Image (idimage, altImage, imagePath, idtouit)
 VALUES
-(1, 'La pochette de mon album', 'userImage/id_nomDeFichier.png', 3);
+(1, 'La pochette de mon album', 'userImage/1_pochetteAlbum.png', 3);
 
 -- Insertion de données dans la table FollowUser
 INSERT INTO FollowUser (idUser, idFollower)
