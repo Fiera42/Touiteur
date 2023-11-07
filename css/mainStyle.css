@@ -94,6 +94,16 @@ nav {
     grid-column: 1/2;
 }
 
+div#user{
+    text-align: center;
+}
+
+
+button.stylized {
+    width: 100%;
+}
+
+
 #feed > form {
     display: flex;
     flex-direction: column;

@@ -13,9 +13,9 @@
     </header>
 
     <nav class="nav">
-        <a class="nav" href="htmlTemplate_USERPAGE.html"><button>home</button></a>
-        <a class="nav" href="htmlTemplate_USERPAGE.html?action=lookUser&user=me"><button>profile</button></a>
-        <a class="nav" href="htmlTemplate_USERPAGE.html?action=search"><button>search</button></a>
+        <a class="nav" href="htmlTemplate_USERPAGE.html"><button class="stylized">home</button></a>
+        <a class="nav" href="htmlTemplate_USERPAGE.html?action=lookUser&user=me"><button class="stylized">profile</button></a>
+        <a class="nav" href="htmlTemplate_USERPAGE.html?action=search"><button class="stylized">search</button></a>
     </nav>
 
     <aside class="mascotte">
@@ -23,14 +23,14 @@
     </aside>
 
     <div id="feed">
-        <!-- NOTE : only visible for connected user-->
-        <form class="post" method="post" action="htmlTemplate_USERPAGE.html?action=touite">
-            <h2>Envoyer un touite</h2>
-            <textarea name="text" maxlength="235" placeholder="Votre incroyable touite ici"> </textarea>
-            <input type="file" name="img">
-            <input type="text" name="img_desc" placeholder="Une description de votre image">
-            <button type="submit">Envoyer le touite</button>
-        </form>
+        <div id="user">
+            <h1>Username</h1>
+
+            <!-- when the user is not connected, hide -->
+            <a class="touite" href="htmlTemplate_USERPAGE.html?action=followuser&user=username"><button class="stylized">Suivre</button></a>
+            <!-- when the user is following this user, we change the button to this-->
+            <a class="touite" href="htmlTemplate_USERPAGE.html?action=unfollowuser&user=username"><button class="stylized">Ne plus suivre</button></a>
+        </div>
 
         <!-- TO DO : MAKE THE CONTAINER CLICKABLE TO SHOW THE TOUITE IN BIG AND WITH THE PICTURE -->
         <!-- probly do that in javascript -->
