@@ -41,3 +41,14 @@ Formes normales
 2NF : aucune clès primaire n'a de dépendance fonctionnelle sur un de ses attributs
 3NF : Pas de 3ème forme car l'on peut récupéré un ID avec l'email et le mot de passe
 
+Les DF :
+idUser -> name, fullname, email, role, password
+idTouit -> idUser, text, date, note
+idTag -> tagName, nbUsage
+image -> idImage, altImage, imagePath, idTouit
+idUser <-> idFollower
+idTouit <-> idTag
+(idTouit, idUser) -> eval
+
+Serait en 3ème forme normales
+
