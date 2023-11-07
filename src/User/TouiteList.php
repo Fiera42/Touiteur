@@ -6,22 +6,22 @@ class TouiteList{
     private Array<Touite> $touites;
     private int $nbTouitePerPage;
 
-    public TouiteList(){
+    public function __construct(){
         $this->touites = array();
         $this->$nbTouitePerPage = 10;
     }
 
-    public void addTouite(Touite $touite){
+    public function addTouite(Touite $touite){
         array_push($this->touites, $touite);
     }
 
-    public void removeTouite(Touite $touite){
+    public function removeTouite(Touite $touite){
         if (($key = array_search($touite, $this->touites)) !== false) {
             unset($this->touites[$key]);
         }
     }
 
-    public String displayAllTouites(){
+    public function displayAllTouites() : string{
         string $res;
         foreach($this->touites as $value){
             $res += $value->displayTouiteSimple() . "/n" . "/n";
@@ -30,7 +30,7 @@ class TouiteList{
         return $res;
     }
     
-    public string displayPage(int $page){
+    public function displayPage(int $page) : string{
         //TO DO
     }
 }
