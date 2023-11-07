@@ -1,5 +1,5 @@
 create table TouiteurUser (
-	idUser int primary key not null,
+	idUser int primary key not null AUTO_INCREMENT,
 	role varchar(10),
 	name varchar(20),
 	fullname varchar(20),
@@ -8,7 +8,7 @@ create table TouiteurUser (
 	);
 
 create table Touit (
-	idtouit int primary key not null,
+	idtouit int primary key not null AUTO_INCREMENT,
 	idUser int,
 	text varchar(235),
 	date Date,
@@ -16,14 +16,14 @@ create table Touit (
 	);
 
 create table Tag (
-	idtag int primary key not null,
+	idtag int primary key not null AUTO_INCREMENT,
 	tagName varchar(20),
 	description varchar(100),
 	nbUsage int
 	);
 
 create table Image (
-	idimage int primary key not null,
+	idimage int primary key not null AUTO_INCREMENT,
 	altImage varchar(100),
 	imagePath varchar(50),
 	idtouit int
