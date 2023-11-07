@@ -17,7 +17,7 @@ private array $tags;
 
 private int $score;
 
-private int $idTouite;
+private int $idTouit;
 public function __construct(User $aut, String $t,int $date)
 {
 $this->srcimage='';
@@ -26,19 +26,19 @@ $this->texte=$t;
 $this->datePublication=$date;
 ConnexionFactory::makeConnection();
 
-    $query = "select idTouit from Touite where iduser = ? and texte = ? ";
+    $query = "select idTouit from Touit where iduser = ? and texte = ? ";
     $prepared_query = ConnexionFactory::$db->prepare($query);
     $id = $aut->getId();
     $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
     $prepared_query->bindParam(2, $this->texte, PDO::PARAM_STR, 32);
     $prepared_query->execute();
-    $this->idTouite = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
+    $this->idTouit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
 
     $pdo = ConnexionFactory::$db;
-    $query="Select tagName from tag natural join TouitTag where idtouite = ?";
+    $query="Select tagName from tag natural join TouitTag where idtouit = ?";
     $prepared = $pdo->prepare($query);
-    $prepared->bindParam(1,$this->idTouite,PDO::PARAM_INT,50);
+    $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
     $prepared->execute();
     array ($reponse[0]='');
     $i=0;
@@ -75,7 +75,7 @@ return $res;
 {
     ConnexionFactory::makeConnection();
 $pdo=ConnexionFactory::$db;
-    $query="Select * from touite";
+    $query="Select * from touit";
     $prepared = $pdo->prepare($query);
 $prepared->execute();
     $reponse = new touiteListe;
@@ -91,8 +91,7 @@ return $reponse;
 
     static function publishTouite(User $aut,string $t) : array
     {
-        $tere[0]=5;
-        return $tere;
+
     }
 
 
@@ -101,25 +100,25 @@ return $reponse;
     {
         ConnexionFactory::makeConnection();
         $pdo=ConnexionFactory::$db;
-        $query="Select count(eval) from VoteTouite where iduser = ? and idTouite";
+        $query="Select count(eval) from VoteTouit where iduser = ? and idTouit = ?";
         $prepared = $pdo->prepare($query);
         $prepared->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
-        $prepared->bindParam(2,$this->idTouite,PDO::PARAM_INT,50);
+        $prepared->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
         $prepared->execute();
         $donne=$prepared->fetch();
         if ($donne==0) {
             if ($eval) {
                 $this->score++;
-                $preparedquery = $pdo->prepare("insert into VoteTouite values (?,?,?)");
+                $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
                 $preparedquery->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
-                $preparedquery->bindParam(2,$this->idTouite,PDO::PARAM_INT,50);
+                $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
             } else {
                 $this->score--;
-                $preparedquery = $pdo->prepare("insert into VoteTouite values (?,?,?)");
+                $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
                 $preparedquery->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
-                $preparedquery->bindParam(2,$this->idTouite,PDO::PARAM_INT,50);
+                $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
             }
@@ -144,9 +143,9 @@ return $reponse;
     public function deleteTouite(User $auth)
     {
         $pdo=ConnexionFactory::makeconexion();
-        $query="Delete from Touite where idTouite = ? and iduser = ?";
+        $query="Delete from Touit where idTouit = ? and iduser = ?";
         $prepared = $pdo->prepare($query);
-        $prepared->bindParam(1,$this->idTouite,PDO::PARAM_INT,50);
+        $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
         $prepared-> bindParm(2,$auth->getId(),PDO::PARAM_INT,50);
         $prepared->execute();
     }
