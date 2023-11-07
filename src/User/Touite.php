@@ -2,10 +2,10 @@
 
 namespace touiteur\src\User;
 
-use iutnc\touiteur\User\User;
+use touiteur\User\User as User;
 use PDO;
 use touiteur\Auth\Auth;
-use iutnc\touiteur\src\Auth\ConnexionFactory;
+use touiteur\Auth\ConnexionFactory;
 
 class Touite
 {
@@ -24,6 +24,7 @@ $this->srcimage='';
 $this->author=$aut;
 $this->texte=$t;
 $this->datePublication=$date;
+ConnexionFactory::makeConnection();
 
     $query = "select idTouit from Touite where iduser = ? and texte = ? ";
     $prepared_query = ConnexionFactory::$db->prepare($query);
@@ -33,11 +34,11 @@ $this->datePublication=$date;
     $prepared_query->execute();
     $this->idTouite = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
-    $pdo=ConnexionFactory::makeconexion();
-    $query="Select tagName from tag natural join TouitTag natural join Touite  where touite.text = ? and iduser = ?";
+
+    $pdo = ConnexionFactory::$db;
+    $query="Select tagName from tag natural join TouitTag where idtouite = ?";
     $prepared = $pdo->prepare($query);
-    $prepared->bindParam(1,$this->texte,PDO::PARAM_STR,50);
-    $prepared_query->bindParam(2, $id, PDO::PARAM_INT, 32);
+    $prepared->bindParam(1,$this->idTouite,PDO::PARAM_INT,50);
     $prepared->execute();
     array ($reponse[0]='');
     $i=0;
@@ -61,7 +62,7 @@ static function findTag(String $text) : array
     while ($tag[$i-1]!='' and strpos($reponse[$i-1], '#')!=null) {
         $tag[$i]=(substr($reponse[$i-1],strpos($reponse[$i-1], '#')));
         $reponse[$i]=substr($tag[$i], 1);
-        $res = substr($reponse[$i],0,strpos($reponse[$i], ' '));
+        $res[$i] = substr($reponse[$i],0,strpos($reponse[$i], ' '));
         $i++;
     }
 return $res;
@@ -89,20 +90,8 @@ return $reponse;
 
     static function publishTouite(User $aut,string $t) : array
     {
-        $pdo=ConnexionFactory::makeconexion();
-        $query="Select tagName from tag natural join TouitTag natural join Touite  where touite.text = ?";
-        $prepared = $pdo->prepare($query);
-        $prepared->bindParam(1,$t,PDO::PARAM_STR,50);
-        $prepared->execute();
-
-        array ($reponse[0]='');
-        $i=0;
-        while($donne=$prepared->fetch())
-        {
-            $reponse[$i]=new Tag($donne['TagName']);
-            $i++;
-        }
-        return $reponse;
+        $tere[0]=5;
+        return $tere;
     }
 
 
@@ -150,7 +139,7 @@ return $reponse;
         return $rep;
     }
 
-    public function deletTouite(User $auth)
+    public function deleteTouite(User $auth)
     {
         $pdo=ConnexionFactory::makeconexion();
         $query="Delete from Touite where idTouite = ? and iduser = ?";
