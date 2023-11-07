@@ -31,7 +31,7 @@ class Touite {
   
   +{static}static findTag(string text) : List<Tag>
   +{static}static getAllTouite() : List<Touite>
-  +{static}static publishTouite(User author, string text, string srcImage = "") : List<Tag>
+  +{static}static publishTouite(User author, string text, string srcImage = "") : Touite
   
   +evaluateTouite(User user, bool evalPositive)
   +displayTouiteSimple() : string
@@ -49,6 +49,8 @@ class Tag {
   -String description
   
   +Tag(string name, int id, description = "")
+  
+  +{static} insertTagIntoDB(string name, string description) : Tag
   
   +getTouiteListFromTag() : TouiteList
   +updateNbUsage()
