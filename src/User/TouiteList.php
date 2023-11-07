@@ -27,4 +27,8 @@ class TouiteList{
         unset($value);
         return $res;
     }
+    
+    public string displayPage(int $page){
+        //TO DO
+    }
 }
