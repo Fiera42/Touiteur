@@ -54,15 +54,17 @@ $this->datePublication=$date;
 
 static function findTag(String $text) : array
 {
-    $tag[0] = htmlspecialchars (strpbrk($text, '# ')); // recherche en premier la presence de '#' puis de ' '
-
-
-    $reponse[0]='';
-        {
-    $res = substr($tag, 1);
-    $reponse[0] = $res;
-}
-return $reponse;
+    $tag[0]=(substr($text,strpos($text, '#')));
+    $reponse[0] = substr($tag[0], 1);
+    $res[0] = substr($reponse[0], 0, strpos($reponse[0], ' '));
+    $i=1;
+    while ($tag[$i-1]!='' and strpos($reponse[$i-1], '#')!=null) {
+        $tag[$i]=(substr($reponse[$i-1],strpos($reponse[$i-1], '#')));
+        $reponse[$i]=substr($tag[$i], 1);
+        $res = substr($reponse[$i],0,strpos($reponse[$i], ' '));
+        $i++;
+    }
+return $res;
 }
 
 
