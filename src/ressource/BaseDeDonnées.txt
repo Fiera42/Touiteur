@@ -1,8 +1,8 @@
-User((primary)idUser, name, fullname, email, role, password)
+TouiteurUser((primary)idUser, name, fullname, email, role, password)
 
 Touit((primary)idTouit, (Foreign)idUser, text, date, note)
 
-Tag((primary)idTag, tagName, nbUsage)
+Tag((primary)idTag, tagName, description, nbUsage)
 
 Image((primary)idImage, altImage, imagePath, (foreign)idTouit)
  
@@ -16,3 +16,24 @@ VoteTouit((primary)idTouit, (primary)idUser, eval) //association
 
 
 Dépendances fonctionnelles
+
+idUser -> name, fullname, email, role, password
+idTouit -> idUser, text, date, note
+idTag -> tagName, nbUsage
+image -> idImage, altImage, imagePath, idTouit
+idUser <-> idFollower
+idTouit <-> idTag
+(idTouit, idUser) -> eval
+
+Clés minimales
+
+(idUser, idTouit)
+(idUser, idTag)
+(idFollower, idTouit)
+(idFollower, idTag)
+
+Formes normales 
+
+2NF : aucune clès primaire n'a de dépendance fonctionnelle sur un de ses attributs
+3NF : aucun attribut non clès n'est dépendant d'attribut non clès
+
