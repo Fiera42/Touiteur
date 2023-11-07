@@ -5,6 +5,7 @@ body {
     column-gap: 10px;
     background-color: aquamarine;
     font-family: Georgia, serif;
+    overflow: hidden;
 }
 
 div#feed {
@@ -19,6 +20,8 @@ div#feed {
 
     align-items: stretch;
     align-content: space-around;
+    overflow-y: scroll;
+    height: 99vh;
 }
 
 div#feed > * {
