@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\src\User;
+namespace touiteur\User;
 
 use touiteur\User\User as User;
 use PDO;
