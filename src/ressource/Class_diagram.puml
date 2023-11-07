@@ -43,10 +43,12 @@ Touite "*" <-- "1" User : author
 Touite "*" <-- "*" Tag : tags
 
 class Tag {
-  -String name;
+  -String name
   -int nbUsage
+  -int id
+  -String description
   
-  +Tag(string name)
+  +Tag(string name, int id, description = "")
   
   +getTouiteListFromTag() : TouiteList
   +updateNbUsage()
