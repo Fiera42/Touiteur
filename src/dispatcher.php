@@ -10,88 +10,79 @@ use touiteur\src\Action\ActionRetour;
 use touiteur\src\Action\ActionSuivre;
 use touiteur\src\Action\ActionTag;
 use touiteur\src\Action\ActionTouiter;
-use touiteur\src\Auth\ConnexionFactory as ConnexionFactory;
+use touiteur\src\Auth\ConnexionFactory;
 
-class dispatcher
-{
-    public String $action;
-    public function __construct()
-    {
-        if (isset($_GET['action'])) $this->action =$_GET['action'];
-        else $this->action ='';
-
-        ConnexionFactory::setConfig('C:\xampp\htdocs\CoursPhp\PHP\TD13\conf\conf.ini');
-    }
-
-    public function run()
-    {
-        $html='';
-        $methode = $_SERVER['REQUEST_METHOD'];
-        switch ($this->action)
-
-        {
-            case 'add-user':
-                $a =new ActionAdUser();
-                $html = $a->execute();
+class Dispatcher {
+    public static function run() : void {
+        if(!isset($_GET['action'])) $_GET['action'] = "";
+    
+        $action = null;
+    
+        switch ($_GET['action']) {
+            case 'lookUser':
+                $action = new ConnectUser();
                 break;
-
-            case 'Detail' :
-                $a=new ActionDetail();
-                $html=$a->execute();
+            case 'search':
+                $action = new AddUser();
                 break;
-
-            case 'Tag' :
-                $a=new ActionTag();
-                $html=$a->execute();
+            case 'touite':
+                $action = new AddPlaylist();
                 break;
-
-            case 'Personne' :
-                $a=new ActionPersonne();
-                $html=$a->execute();
+            case 'sign-in':
+                $action = new AddPodcastTrack();
                 break;
-
-            case 'Retour' :
-                $a=new ActionRetour();
-                $html=$a->execute();
+            case 'vote':
+                $action = new DisplayPlaylist();
                 break;
-
-            case 'Touiter' :
-                $a=new ActionTouiter();
-                $html=$a->execute();
+            case 'destroytouite':
+                $action = new DisplayPlaylist();
                 break;
-
-            case 'Effacer' :
-                $a=new ActionEffacer();
-                $html=$a->execute();
+            case 'changepage':
+                $action = new DisplayPlaylist();
                 break;
-
-            case 'S\'abonner au tag' :
-                $a=new ActionAbonnerTag();
-                $html=$a->execute();
+            case 'followtag':
+                $action = new DisplayPlaylist();
                 break;
-
-            case 'Evaluer' :
-                $a=new ActionEvaluer();
-                $html=$a->execute();
+            case 'unfollowtag':
+                $action = new DisplayPlaylist();
                 break;
-
-            case 'Suivre' :
-                $a=new ActionSuivre();
-                $html=$a->execute();
+            case 'followuser':
+                $action = new DisplayPlaylist();
                 break;
-
-            default:
-                echo'Page d\'acceuille';
+            case 'unfollowuser':
+                $action = new DisplayPlaylist();
+                break;
+            case 'looktouite':
+                $action = new DisplayPlaylist();
+                break;
+            case 'register':
+                $action = new DisplayPlaylist();
+                break;
         }
 
-        $this->render($html);
+        self::renderPage($action);
     }
-    public function render($html)
-    {
-        $html="<head></head>
-    <body>
-    $html
-    </body>";
+
+    private static function renderPage(Action $action) : void {
+
+        if(isset($action)) $page = $action->execute();
+
+        $html = '<!DOCTYPE html>
+        <html>
+        <head>
+            <title>Exemple</title>
+        </head>
+        <body>
+        <a href="?action=sign-in"> connect </a></br>
+        <a href="?action=add-user"> add user </a></br>
+        <a href="?action=add-playlist"> add playlist </a></br>
+        <a href="?action=add-podcasttrack"> add podcast track </a></br>
+        <a href="?action=display-playlist"> display playlist </a></br>
+        <a href="?action="> default </a></br></br>
+        '.$page.'
+        </body>
+        </html>';
+
         echo $html;
     }
 }

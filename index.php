@@ -1,20 +1,21 @@
 <?php
+
 //----------------------Autoload
 
-require_once composer;
+use \touiteur\Auth\ConnexionFactory;
+use \touiteur\Dispatcher;
 
-use \iutnc\deefy\db\ConnexionFactory;
-use \iutnc\deefy\dispatcher\Dispatcher;
+require_once 'src/Loader/Autoloader.php';
 
-//Init db connexion
+$loader = new \touiteur\loader\Autoloader('touiteur', 'src');
+$loader->register();
+
+//----------------------db connection
 
 ConnexionFactory::setConfig("./config/config.ini");
+ConnexionFactory::makeConnection()
 
 //----------------------Programme
-
-//$email = 'user1@mail.com';
-//$passwd = 'user1';
-//$role = 1;
 
 session_start();
 
