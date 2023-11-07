@@ -19,7 +19,7 @@ class TouiteList{
         //TO DO
     }
 
-    public String displayAllTouites{
+    public String displayAllTouites(){
         string $res;
         foreach($this->touite as $value){
             $res += $value->displayTouiteSimple() . "/n" . "/n";
