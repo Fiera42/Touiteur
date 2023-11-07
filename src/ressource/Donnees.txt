@@ -87,3 +87,55 @@ note : VRAI
 Touite : touite de sebastien
 user : balkany
 note : VRAI
+
+
+
+-- Insertion de données dans la table TouiteurUser
+INSERT INTO TouiteurUser (idUser, role, name, fullname, email , password)
+VALUES
+(1, '1', 'Michel', 'Drucker', 'm.drucker@gmail.com' , 'mdp'),
+(2, '1', 'Patrique', 'Sébastien', 'PatSeb@gmail.com' , 'pierre'),
+(3, NULL, 'Patrique', 'Balkany', 'Balka239@laposte.net' , 'tartiflette');
+
+-- Insertion de données dans la table Touit
+INSERT INTO Touit (idtouit, idUser, text, date, note)
+VALUES
+(1, 1, 'Salut à tous c''est michel drucker, le vrai, pas du tout une copie', '2023-11-06', 1),
+(2, 3, 'Incroyable, michel, moi aussi je suis le vrai Patrique balkany', '2023-11-06', -1),
+(3, 2, 'Voici la pochette de mon nouvel album', '2023-11-06', 2);
+
+-- Insertion de données dans la table Tag
+INSERT INTO Tag (idtag, tagName, description, nbUsage)
+VALUES
+(1, 'musique', 'des touites parlant de musique', 1);
+
+-- Insertion de données dans la table Image
+INSERT INTO Image (idimage, altImage, imagePath, idtouit)
+VALUES
+(1, 'La pochette de mon album', 'userImage/id_nomDeFichier.png', 3);
+
+-- Insertion de données dans la table FollowUser
+INSERT INTO FollowUser (idUser, idFollower)
+VALUES
+(3, 2),
+(1, 3),
+(3, 1);
+
+-- Insertion de données dans la table FollowTag
+INSERT INTO FollowTag (idTag, idFollower)
+VALUES
+(1, 2),
+(1, 1);
+
+-- Insertion de données dans la table TouitTag
+INSERT INTO TouitTag (idtouit, idtag)
+VALUES
+(3, 1);
+
+-- Insertion de données dans la table VoteTouit
+INSERT INTO VoteTouit (idUser, idtouit, eval)
+VALUES
+(1, 1, TRUE),
+(1, 2, FALSE),
+(1, 3, TRUE),
+(2, 3, TRUE);
