@@ -9,7 +9,7 @@ class ActionFollowUser extends Action {
         $user1 = User::getUserFromId($_GET['iduser']); //the id of the user we want to follow
         $user2 = User::getUserFromId(($_SESSION['iduser']));
         $user2->followUser($user1);
-        $html='Reload the page';
-        return $html;
+        $_GET['action'] = "lookuser";
+        return new ActionLookUser()->execute();
     }
 }

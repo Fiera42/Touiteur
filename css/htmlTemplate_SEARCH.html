@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <title>Touiteur</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="mainStyle.css">
+   </head>
+
+   <body>
+    <header>
+        <img class="logo" src="../ressource/Logo.png" alt="Le logo de touiteur">
+    </header>
+
+    <nav class="nav">
+        <a class="nav" href="htmlTemplate_MAINPAGE.html"><button class="stylized">home</button></a>
+        <a class="nav" href="htmlTemplate_MAINPAGE.html?action=lookUser&iduser=id"><button class="stylized">profile</button></a>
+        <a class="nav" href="htmlTemplate_MAINPAGE.html?action=search"><button class="stylized">search</button></a>
+    </nav>
+
+    <aside class="mascotte">
+        <img src="https://media.tenor.com/BXQgJskV7LgAAAAj/9999.gif">
+    </aside>
+
+    <div id="feed">
+        <form class="connection" method="post" action="htmlTemplate_MAINPAGE.html?action=search">
+            <h2>Rechercher</h2>
+            <input type="text" name="search" placeholder="Recherche">
+            <button type="submit">Rechercher</button>
+        </form>
+   </body>
+<html>
