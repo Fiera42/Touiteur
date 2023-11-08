@@ -58,6 +58,7 @@ class Touite {
 
     static function findTag(String $text) : array
     {
+        $text=$text." ";
         $tag[0]=(substr($text,strpos($text, '#')));
         $reponse[0] = substr($tag[0], 1);
         $res[0] = substr($reponse[0], 0, strpos($reponse[0], ' '));

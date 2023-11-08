@@ -29,11 +29,11 @@ class User {
     function getTouit() : TouiteList {
         ConnexionFactory::makeConnection();
 
-        $query = "SELECT text, date from touit where iduser = ?";
+        $query = "SELECT idtouit FROM touit where iduser = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
-        $prepared_query->bindParam(1, $this->id, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(1, $this->id, PDO::PARAM_INT, 32);
 
         $prepared_query->execute();
 
@@ -41,9 +41,8 @@ class User {
 
         $list = new TouiteList();
         foreach ($res as $row){
-            $aut = new User($row[$this->email] , $row[$this->passwd] , $row[$this->role]);
-            $touit = new Touite($aut , $row['text'] , $row['date']);
-            $list->addTouit($touit);
+            $touit = Touite::GetTouiteFromId($row['idtouit']);
+            $list->addTouite($touit);
         }
         return $list;
     }
@@ -120,6 +119,30 @@ where followtag.idFollower = ?";
             $listTag[] = $tag ;
         }
         return $listTag  ;
+    }
+
+    function isFollowingUser($id) {
+        $query = "select * from followUser where idUser = ? AND idFollower = ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+
+        $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_INT, 32);
+
+        $prepared_query->execute();
+
+        return isset($prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]);
+    }
+
+    function isFollowingTag($id) {
+        $query = "select * from followTag where idTag = ? AND idFollower = ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+
+        $prepared_query->bindParam(1, $td, PDO::PARAM_INT, 32);
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_INT, 32);
+
+        $prepared_query->execute();
+
+        return isset($prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]);
     }
 
 

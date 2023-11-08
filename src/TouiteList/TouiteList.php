@@ -25,7 +25,7 @@ class TouiteList{
     public function displayAllTouites() : string{
         $res = "";
         foreach($this->touites as $value){
-            $res .= $value->displayTouiteSimple() . "/n" . "/n";
+            $res .= $value->displaySimple();
         }
         unset($value);
         return $res;

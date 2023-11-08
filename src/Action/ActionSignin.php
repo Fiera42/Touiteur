@@ -1,14 +1,20 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
+
+use touiteur\auth\Auth;
+use touiteur\User\User;
 
 class ActionSignin extends Action {
     public function execute() : string {
-        $_GET['iduser']; //the id of the user we want to look at
-        $_POST['mail']; //the mail of the person wanting to signin
-        $_POST['password']; //the password of the person wanting to signin
+        $mail=$_POST['email']; //the mail of the person wanting to signin
+        $passwd=$_POST['password']; //the password of the person wanting to signin
+        if (Auth::authenticate($mail,$passwd))
+        {
+            $html='if signed in, nothing,';
+        }
+        else{$html ='else we show the sign-in page';}
         //register the person into the session
-        $html='if signed in, nothing, else we show the sign-in page';
         return $html;
     }
 }
