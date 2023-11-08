@@ -2,9 +2,9 @@
 
 namespace touiteur\action;
 
-class ActionLookUser extends Action {
+class ActionLookTag extends Action {
     public function execute() : string {
-        $_GET['iduser']; //the id of the user we want to look at
+        $_GET['idtag']; //the id of the user we want to look at
         $html='Page de la personne avec ces touites les plus récents (TO DO)';
         return $html;
     }
