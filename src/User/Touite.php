@@ -92,8 +92,7 @@ class Touite {
 
 
 
-    static function publishTouite(User $aut, string $t) : array
-    {
+    static function publishTouite(User $aut, string $t, string $srcimage) : array {
         ConnexionFactory::makeConnection();
         $pdo = ConnexionFactory::$db;
         $query = "Select TagName from TAG";
@@ -192,8 +191,28 @@ class Touite {
 
     public function displayDetaille() :string
     {
-        $auth=$this->author;
-        $rep="$auth->getEmail()"."<br>"."$this->texte"."<br>"."$this->datePublication"."<br>"."$this->tags";
+        $text = $this->texte ;
+        if (!empty($this->tags)) {
+            foreach ($this->tags as $tag) {
+                $tagLink = "<a href=\"?action=looktag&idtag={$tag->getId()}\">#{$tag->getName()}</a>";
+                $text = str_replace('#' . $tag->getName(), $tagLink, $text);
+            }
+        }
+
+        $rep="<div id=\"bigtouite\">
+        <div class=\"touite\">
+            <a class=\"touite\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
+            <time>$this->datePublication</time>
+            <!-- tags are ofc visible in any touite, not only in big -->
+            <!-- dont forget to change the idtag -->
+            <p class=\"touite\">{$text}</p>
+            <img src=\"{$this->srcimage}\">
+            <div class=\"vote\">
+                <!-- idTouite should be the same as the id of the touite-->
+                <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\"><button>&#11205;</button></a>
+                <a href=\"?action=vote&idtouite={$this->idTouit}&value=false\"><button>&#11206;</button></a>
+            </div>
+        </div>";
 
         return $rep;
     }
