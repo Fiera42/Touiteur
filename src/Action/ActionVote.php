@@ -12,7 +12,7 @@ class ActionVote extends Action {
         $user=User::getUserFromId($_SESSION['iduser']);
         $touite->evaluateTouite($user,$bool);
         //make the changes of the db
-        $html='Nothing';
-        return $html;
+        $_GET['action'] = "";
+        return new ActionDisplayPage()->execute();
     }
 }
