@@ -10,24 +10,20 @@ use touiteur\TouiteList\TouiteList;
 
 class User {
     private String $email;
-
+    private String $name;
+    private String $fullname;
     private String $passwd;
     private int $role;
 
     private int $id;
 
-    function __construct(String $email, String $passwd, int $role = 0) {
+    function __construct(int $id, String $email, String $name, String $fullname, String $passwd, int $role = 1) {
         $this->email = $email;
         $this->passwd = $passwd;
         $this->role = $role;
-
-        ConnexionFactory::makeConnection();
-        $query = "select idUser from TouiteurUser where email=? and password = ?";
-        $prepared_query = ConnexionFactory::$db->prepare($query);
-        $prepared_query->bindParam(1, $this->email, PDO::PARAM_STR, 32);
-        $prepared_query->bindParam(2, $this->passwd, PDO::PARAM_STR, 32);
-        $prepared_query->execute();
-        $this->id = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]['idUser'];
+        $this->name = $name;
+        $this->fullname = $fullname;
+        $this->id = $id;
     }
 
     function getTouit() : TouiteList {
@@ -188,12 +184,16 @@ where followtag.idFollower = ?";
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
         $user = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
-    
-        return new User($user['email'], $user['password'], $user['role']);
+
+        return new User($id, $user['email'], $user['name'], $user['fullname'], $user['password'], $user['role']);
     }
 
     public function getId() {
         return $this->id;
+    }
+
+    public function getDisplayName() {
+        return $this->name." ".$this->fullname;
     }
 
 }
