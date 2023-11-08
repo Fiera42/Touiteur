@@ -1,11 +1,17 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
 
-class ActionPersonne extends Action {
+use touiteur\Tag\Tag;
+use touiteur\User\User;
+
+class ActionUnfollowTag extends Action {
     public function execute() : string {
-        $_GET['idtag']; //the id of the tag we want to un follow
-        $html='reload the page';
+        $tag=Tag::getTagFromid($_GET['idtag']); //the id of the tag we want to follow
+        $user=User::getUserFromId($_SESSION['iduser']);
+        $user->UnfollowTag($tag);
+        $html= '';
         return $html;
+
     }
 }
