@@ -8,7 +8,7 @@ use touiteur\User\User;
 
 class Auth {
 
-    public static function register(string $email, string $password, int $role = 1) : bool {
+    public static function register(string $email, string $password, int $role = 1,String $name,String $fullname) : bool {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         ConnexionFactory::makeConnection();
@@ -18,17 +18,18 @@ class Auth {
         $prepared_query->execute();
         $bdUser = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
 
-        if(isset($bdUser[0])) throw new AuthException("Email is already in use");
+        if(isset($bdUser[0])) return false;
 
-        if(!self::checkPasswordStrength($password, 10)) throw new AuthException("Password not strong enought");
-
+        if(!self::checkPasswordStrength($password, 10)){}
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
-        $query = "insert into touiteuruser (email, password, role) values (?, ?, ?)";
+        $query = "insert into touiteuruser (name,fullname,email, password, role) values (?, ?, ?,?,?)";
         $prepared_query = ConnexionFactory::$db->prepare($query);
-        $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
-        $prepared_query->bindParam(2, $password, PDO::PARAM_STR, 32);
-        $prepared_query->bindParam(3, $role, PDO::PARAM_INT);
+        $prepared_query->bindParam(1, $name, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(2, $fullname, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(3, $email, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(4, $password, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(5, $role, PDO::PARAM_INT);
         $prepared_query->execute();
 
         return true;
