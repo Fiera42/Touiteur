@@ -3,6 +3,8 @@
 namespace touiteur\Tag;
 
 use touiteur\TouiteList\TouiteList;
+use touiteur\Auth\ConnexionFactory;
+use PDO;
 
 class Tag{
     private string $name;
@@ -50,12 +52,12 @@ class Tag{
         return new Tag($name, $touit['idtag'], $touit['description'], $touit['nbUsage']);
     }
 
-    public static function getTagFromId(int $id) : Tag {
+    public static function getTagFromId(string $id) : Tag {
         $query = "SELECT * FROM tag WHERE idtag LIKE ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
-        $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+        $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
         return new Tag($touit['tagName'], $id, $touit['description'], $touit['nbUsage']);
     }

@@ -1,32 +1,33 @@
 create table TouiteurUser (
 	idUser int primary key not null AUTO_INCREMENT,
-	role varchar(10),
-	name varchar(20),
-	fullname varchar(20),
-	email varchar(30),
-	password varchar(30)
+	role varchar(10) not null,
+	name varchar(20) not null,
+	fullname varchar(20) not null,
+	email varchar(30) not null,
+	password varchar(30) not null
 	);
 
 create table Touit (
 	idtouit int primary key not null AUTO_INCREMENT,
-	idUser int,
-	text varchar(235),
-	date Date,
-	note int
+	idUser int not null,
+	text varchar(235) not null,
+	date Datenot null,
+	note int not null,
+	idImage int
 	);
 
 create table Tag (
 	idtag int primary key not null AUTO_INCREMENT,
-	tagName varchar(20),
-	description varchar(100),
-	nbUsage int
+	tagName varchar(20) not null,
+	description varchar(100) not null,
+	nbUsage int not null
 	);
 
 create table Image (
 	idimage int primary key not null AUTO_INCREMENT,
-	altImage varchar(100),
-	imagePath varchar(50),
-	idtouit int
+	altImage varchar(100) not null,
+	imagePath varchar(50) not null,
+	idtouit int not null
 	);
 
 create table FollowUser (
@@ -93,3 +94,7 @@ ALTER TABLE VoteTouit
 ALTER TABLE VoteTouit
    ADD CONSTRAINT FK_liker_uti FOREIGN KEY (idUser)
       REFERENCES TouiteurUser (idUser);
+
+ALTER TABLE Touit
+   ADD CONSTRAINT FK_touit_idimg FOREIGN KEY (idimage)
+      REFERENCES Image (idimage)

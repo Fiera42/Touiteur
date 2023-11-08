@@ -13,7 +13,7 @@ $loader->register();
 //----------------------db connection
 
 ConnexionFactory::setConfig("./config/config.ini");
-ConnexionFactory::makeConnection()
+ConnexionFactory::makeConnection();
 
 //----------------------Programme
 

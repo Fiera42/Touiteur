@@ -2,6 +2,8 @@
 
 namespace touiteur\TouiteList;
 
+use touiteur\User\Touite;
+
 class TouiteList{
     private array $touites;
     private int $nbTouitePerPage;
@@ -41,8 +43,8 @@ class TouiteList{
         else
         {
             $html = "";//Génération des touites à afficher
-            for ($i = $page * $this->nbTouitePerPage ; $i <= $page * $this->nbTouitePerPage + $this->nbTouitePerPage ; $i++ ) {
-                $html = $html.  $this->touites[$i]->displayTouiteSimple().'<br>' ;
+            for ($i = ($page - 1) * $this->nbTouitePerPage + 1; $i <= $page * $this->nbTouitePerPage + $this->nbTouitePerPage ; $i++ ) {
+                if(isset($this->touites[$i])) $html = $html.  $this->touites[$i]->displaySimple().'<br>' ;
             }
             if ($page === 1) {
                 $hidePreviousBtn = "HIDDEN";

@@ -20,13 +20,14 @@ class User {
         $this->email = $email;
         $this->passwd = $passwd;
         $this->role = $role;
+
         ConnexionFactory::makeConnection();
         $query = "select idUser from TouiteurUser where email=? and password = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $this->email, PDO::PARAM_STR, 32);
         $prepared_query->bindParam(2, $this->passwd, PDO::PARAM_STR, 32);
         $prepared_query->execute();
-        $this->id = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
+        $this->id = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]['idUser'];
     }
 
     function getTouit() : TouiteList {
@@ -179,6 +180,20 @@ where followtag.idFollower = ?";
         $prepared_query->bindParam(2, $this->id, PDO::PARAM_STR, 32);
 
         $prepared_query->execute();
+    }
+
+    static function getUserFromId(int $id) : User {
+        $query = "select * from touiteuruser where idUser = ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
+        $prepared_query->execute();
+        $user = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
+    
+        return new User($user['email'], $user['password'], $user['role']);
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
 }

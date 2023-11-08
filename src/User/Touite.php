@@ -6,22 +6,24 @@ use touiteur\User\User as User;
 use PDO;
 use touiteur\Auth\Auth;
 use touiteur\Auth\ConnexionFactory;
+use touiteur\TouiteList\TouiteList;
+use touiteur\Tag\Tag;
 
-var_dump(Touite::findTag("Ceci #est une #phrase-de-test"));
+//var_dump(Touite::findTag("Ceci #est une #phrase-de-test"));
 
 class Touite
 {
 private User $author;
 private String $texte;
 private String $srcimage;
-private int $datePublication;
+private String $datePublication;
 private array $tags;
 
 private int $score;
 
 private int $idTouit;
-public function __construct(User $aut, String $t,int $date, array $tags) {
-    $this->srcimage='';
+public function __construct(User $aut, String $t, String $date, String $srcimage, array $tags) {
+    $this->srcimage= $srcimage;
     $this->author=$aut;
     $this->texte=$t;
     $this->datePublication=$date;
@@ -29,13 +31,15 @@ public function __construct(User $aut, String $t,int $date, array $tags) {
 }
 
 static function getTouiteFromId(int $id) : Touite {
-    $query = "select * from Touit where idTouit = ?";
+    $query = "select * from Touit LEFT JOIN image ON Touit.idimage = image.idimage where touit.idTouit = ?";
     $prepared_query = ConnexionFactory::$db->prepare($query);
     $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
     $prepared_query->execute();
-    $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+    $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
-    return new Touite(User::getUserFromId($touit['iduser']), $touit['text'], $touit['srcimage'], $touit['datePublication'], Touite::getTagListFromTouiteID($id));
+    if(!isset($touit['srcimage'])) $touit['srcimage'] = "";
+
+    return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['srcimage'], $touit['date'], Touite::getTagListFromTouiteID($id));
 }
 
 static function getTagListFromTouiteID(int $id) : array {
@@ -47,7 +51,7 @@ static function getTagListFromTouiteID(int $id) : array {
 
     $res = [];
     foreach($tagsid as $key => $value) {
-        $res[] = Tag::getTagFromId($value);
+        $res[] = Tag::getTagFromId($value['idtag']);
     }
 
     return $res;
@@ -68,20 +72,22 @@ static function findTag(String $text) : array
     return $res;
 }
 
- static function getAllTouite() : array
-{
-    ConnexionFactory::makeConnection();
-$pdo=ConnexionFactory::$db;
-    $query="Select * from touit";
-    $prepared = $pdo->prepare($query);
-$prepared->execute();
-    $reponse = new touiteListe;
-    while($donne=$prepared->fetch())
-    {
-    $reponse->addTouite(new Touite($donne['iduser'],$donne['text'],$donne['date']));
+    static function getAllTouite() : TouiteList {
+        ConnexionFactory::makeConnection();
+        $pdo=ConnexionFactory::$db;
+        $query="Select idtouit from touit";
+        $prepared = $pdo->prepare($query);
+        $prepared->execute();
+        $reponse = new TouiteList();
+
+        $donnee = $prepared->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($donnee as $key => $value) {
+            $reponse->addTouite(Touite::getTouiteFromId($value['idtouit']));
+        }
+
+        return $reponse;
     }
-return $reponse;
-}
 
 
 
@@ -150,12 +156,20 @@ return $reponse;
             }
         }else echo "vous avez deja voter pour ce touite";
     }
-    public function displaySimple() :string
-    {
-        $auth=$this->author;
-        $rep="$auth->getEmail()"."<br>"."$this->texte";
+    public function displaySimple() : string {
+        $html = "<div class=\"touite\" onclick=\"location.href='index.html?action=looktouite&idtouite={$author->getId()}'\">
+                    <a class=\"touite-userName\" href=\"index.html?action=lookUser&iduser=id\">anotherUser</a>
+                    <p class=\"touite-content\"> dolor in reprehenderit </p>
+                    <div class=\"vote\">
+                        <!-- idTouite should be the same as the id of the touite-->
+                        <a href=\"index.html?action=vote&idtouite=1&value=true\"><button>&#11205;</button><a></a>
+                        <a href=\"index.html?action=vote&idtouite=1&value=false\"><button>&#11206;</button></a>
 
-        return $rep;
+                        <!-- only show this if it's a touite of the user -->
+                        <!-- ofc still check if it's the good user when clicking -->
+                        <a href=\"index.html?action=destroyTouite&idtouite=1\"><button>&#9587;</button></a>
+                    </div>
+                </div>"
     }
 
     public function displayDetaille() :string
