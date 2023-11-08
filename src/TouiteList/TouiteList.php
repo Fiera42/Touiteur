@@ -32,7 +32,7 @@ class TouiteList{
     }
     
     public function displayPage(int $page) : string{
-        $nbpage =  ceil((count($this->touites) / $this->nbTouitePerPage)) ;
+        $nbpage =  ceil((count($this->touites) / $this->nbTouitePerPage));
 
         //Vérification de la page, cela doit être une page valide + faire protection injection html
         if ($page <= 0 || $page > $nbpage){
@@ -43,7 +43,7 @@ class TouiteList{
         else
         {
             $html = "";//Génération des touites à afficher
-            for ($i = ($page - 1) * $this->nbTouitePerPage + 1; $i <= ($page - 1) * $this->nbTouitePerPage + $this->nbTouitePerPage ; $i++ ) {
+            for ($i = ($page - 1) * $this->nbTouitePerPage; $i < ($page - 1) * $this->nbTouitePerPage + $this->nbTouitePerPage ; $i++ ) {
                 if(isset($this->touites[$i])) $html = $html.  $this->touites[$i]->displaySimple() ;
             }
             if ($page == 1) {
