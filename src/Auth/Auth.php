@@ -3,6 +3,8 @@
 namespace touiteur\auth;
 
 use \iutnc\touiteur\auth\ConnexionFactory;
+use PDO;
+use touiteur\User\User;
 
 class Auth {
 
@@ -42,13 +44,18 @@ class Auth {
         $prepared_query->execute();
         $bdPass = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
 
-        if(!isset($bdPass[0]['passwd'])) throw new AuthException("Unknown user");
+        if(!isset($bdPass[0]['passwd'])) return false;
 
         if(password_verify($password, $bdPass[0]['passwd'])) {
-            $_SESSION['user'] = new User($email, $password, $bdPass[0]['role']);
+            $query = "select iduser from touiteuruser where email = ?;";
+            $prepared_query = ConnexionFactory::$db->prepare($query);
+            $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
+            $prepared_query->execute();
+            $use=User::getUserFromId($prepared_query->fecth());
+            $_SESSION['user'] = $use;
             return true;
         }
-        else throw new AuthException("Invalid password");
+        else return false;
     }
 
     public static function checkAccessLevel(int $required): void {
