@@ -10,9 +10,9 @@ class Tag{
     private int $id ;
     private string $description ;
 
-    public function __construct(String $name , int $id , string $des = ""){
+    public function __construct(String $name , int $id , string $des = "", int $nbUsage = 0){
         $this->name = $name;
-        $this->nbUsage = 0;
+        $this->nbUsage = $nbUsage;
         $this->id = $id;
         $this->description = $des;
     }
@@ -38,6 +38,26 @@ class Tag{
             $list->addTouit($touit);
         }
         return $list;
+    }
+
+    public static function getTagFromName(string $name) : Tag {
+        $query = "SELECT * FROM tag WHERE tagname LIKE ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $prepared_query->bindParam(1, $name, PDO::PARAM_STR, 32);
+        $prepared_query->execute();
+        $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+        return new Tag($name, $touit['idtag'], $touit['description'], $touit['nbUsage']);
+    }
+
+    public static function getTagFromId(int $id) : Tag {
+        $query = "SELECT * FROM tag WHERE idtag LIKE ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
+        $prepared_query->execute();
+        $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+        return new Tag($touit['tagName'], $id, $touit['description'], $touit['nbUsage']);
     }
 
     function updateNbUsage() {

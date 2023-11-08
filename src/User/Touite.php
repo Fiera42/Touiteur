@@ -7,6 +7,8 @@ use PDO;
 use touiteur\Auth\Auth;
 use touiteur\Auth\ConnexionFactory;
 
+var_dump(Touite::findTag("Ceci #est une #phrase-de-test"));
+
 class Touite
 {
 private User $author;
@@ -18,40 +20,38 @@ private array $tags;
 private int $score;
 
 private int $idTouit;
-public function __construct(User $aut, String $t,int $date)
-{
-$this->srcimage='';
-$this->author=$aut;
-$this->texte=$t;
-$this->datePublication=$date;
-ConnexionFactory::makeConnection();
-
-    $query = "select idTouit from Touit where iduser = ? and texte = ? ";
-    $prepared_query = ConnexionFactory::$db->prepare($query);
-    $id = $aut->getId();
-    $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
-    $prepared_query->bindParam(2, $this->texte, PDO::PARAM_STR, 32);
-    $prepared_query->execute();
-    $this->idTouit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
-
-
-    $pdo = ConnexionFactory::$db;
-    $query="Select tagName from tag natural join TouitTag where idtouit = ?";
-    $prepared = $pdo->prepare($query);
-    $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
-    $prepared->execute();
-    array ($reponse[0]='');
-    $i=0;
-    while($donne=$prepared->fetch())
-    {
-        $reponse[$i]=new Tag($donne['TagName']);
-        $i++;
-    }
-
-    $this->tags = $reponse;
-
+public function __construct(User $aut, String $t,int $date, array $tags) {
+    $this->srcimage='';
+    $this->author=$aut;
+    $this->texte=$t;
+    $this->datePublication=$date;
+    $this->tags = $tags;
 }
 
+static function getTouiteFromId(int $id) : Touite {
+    $query = "select * from Touit where idTouit = ?";
+    $prepared_query = ConnexionFactory::$db->prepare($query);
+    $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
+    $prepared_query->execute();
+    $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+    return new Touite(User::getUserFromId($touit['iduser']), $touit['text'], $touit['srcimage'], $touit['datePublication'], Touite::getTagListFromTouiteID($id));
+}
+
+static function getTagListFromTouiteID(int $id) : array {
+    $query = "SELECT idtag FROM TouitTag WHERE idtouit LIKE ?";
+    $prepared_query = ConnexionFactory::$db->prepare($query);
+    $prepared_query->bindParam(1, $id, PDO::PARAM_STR, 32);
+    $prepared_query->execute();
+    $tagsid = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+    $res = [];
+    foreach($tagsid as $key => $value) {
+        $res[] = Tag::getTagFromId($value);
+    }
+
+    return $res;
+}
 
 static function findTag(String $text) : array
 {
@@ -65,11 +65,8 @@ static function findTag(String $text) : array
         $res[$i] = substr($reponse[$i],0,strpos($reponse[$i], ' '));
         $i++;
     }
-return $res;
+    return $res;
 }
-
-
-
 
  static function getAllTouite() : array
 {
@@ -89,7 +86,7 @@ return $reponse;
 
 
 
-    static function publishTouite(User $aut,string $t) : array
+    static function publishTouite(User $aut, string $t) : array
     {
         ConnexionFactory::makeConnection();
         $pdo = ConnexionFactory::$db;
