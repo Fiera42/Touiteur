@@ -19,14 +19,16 @@ class Touite {
     private array $tags;
     private int $score;
     private int $idTouit;
+    private int $idimage;
 
-    public function __construct(User $aut, String $t, String $date, String $srcimage, array $tags, $idTouit) {
+    public function __construct(User $aut, String $t, String $date, String $srcimage, array $tags, $idTouit , $idimage) {
         $this->srcimage= $srcimage;
         $this->author=$aut;
         $this->texte=$t;
         $this->datePublication=$date;
         $this->tags = $tags;
         $this->idTouit = $idTouit;
+        $this->idimage = $idimage;
     }
 
     static function getTouiteFromId(int $id) : Touite {
@@ -38,7 +40,7 @@ class Touite {
 
         if(!isset($touit['srcimage'])) $touit['srcimage'] = "";
 
-        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['srcimage'], $touit['date'], Touite::getTagListFromTouiteID($id), $id);
+        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['date'], $touit['srcimage'], Touite::getTagListFromTouiteID($id), $id ,$touit['idimage'] );
     }
 
     static function getTagListFromTouiteID(int $id) : array {
@@ -198,6 +200,7 @@ class Touite {
                 $text = str_replace('#' . $tag->getName(), $tagLink, $text);
             }
         }
+        $src = $this->altImage();
 
         $rep="<div id=\"bigtouite\">
         <div class=\"touite\">
@@ -206,7 +209,7 @@ class Touite {
             <!-- tags are ofc visible in any touite, not only in big -->
             <!-- dont forget to change the idtag -->
             <p class=\"touite\">{$text}</p>
-            <img src=\"{$this->srcimage}\">
+            <img src=\"{$this->srcimage}\" alt=\"$src\">
             <div class=\"vote\">
                 <!-- idTouite should be the same as the id of the touite-->
                 <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\"><button>&#11205;</button></a>
@@ -225,5 +228,13 @@ class Touite {
         $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
         $prepared-> bindParm(2,$auth->getId(),PDO::PARAM_INT,50);
         $prepared->execute();
+    }
+
+    public function altImage() : string {
+        $query = "SELECT altImage FROM Image WHERE idimage=?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $prepared_query->bindParam(1, $this->idimage, PDO::PARAM_STR, 32);
+        $prepared_query->execute();
+        return $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]['altImage'];
     }
 }
