@@ -82,7 +82,7 @@ class Dispatcher {
         $hideConnection = (isset($_SESSION['user']))?"style='display:none'":"";
         $hidePost = (!isset($_SESSION['user']))?"style='display:none'":"";
 
-        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite") {
+        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite" || $_GET['action'] == "search") {
             $hideConnection = "style='display:none'";
             $hidePost = "style='display:none'";
         }
