@@ -191,6 +191,15 @@ div.vote {
     text-align: right;
 }
 
+div.vote > * {
+    display: inline;
+}
+
+div.vote > p {
+    font-size: 1.2em;
+    margin: 0.3em;
+}
+
 @media (max-width:700px) {
     body {
         grid-template-columns: minmax(0px, 1fr) 95% minmax(0px,1fr);

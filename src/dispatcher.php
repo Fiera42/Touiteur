@@ -1,15 +1,19 @@
 <?php
 namespace touiteur;
 
-use touiteur\src\Action\ActionAbonnerTag;
-use touiteur\src\Action\ActionDetail;
-use touiteur\src\Action\ActionEffacer;
-use touiteur\src\Action\ActionEvaluer;
-use touiteur\src\Action\ActionPersonne;
-use touiteur\src\Action\ActionRetour;
-use touiteur\src\Action\ActionSuivre;
-use touiteur\src\Action\ActionTag;
-use touiteur\src\Action\ActionTouiter;
+use touiteur\src\Action\ActionLookUser;
+use touiteur\src\Action\ActionSearch;
+use touiteur\src\Action\ActionTouite;
+use touiteur\src\Action\ActionSignin;
+use touiteur\src\Action\ActionVote;
+use touiteur\src\Action\ActionDestroyTouite;
+use touiteur\src\Action\ActionChangePage;
+use touiteur\src\Action\ActionFollowTag;
+use touiteur\src\Action\ActionUnfollowTag;
+use touiteur\src\Action\ActionFollowUser;
+use touiteur\src\Action\ActionUnfollowUser;
+use touiteur\src\Action\ActionLookTouite;
+use touiteur\src\Action\ActionRegister;
 use touiteur\src\Auth\ConnexionFactory;
 
 class Dispatcher {
@@ -20,43 +24,43 @@ class Dispatcher {
     
         switch ($_GET['action']) {
             case 'lookUser':
-                $action = new ConnectUser();
+                $action = new ActionLookUser();
                 break;
             case 'search':
-                $action = new AddUser();
+                $action = new ActionSearch();
                 break;
             case 'touite':
-                $action = new AddPlaylist();
+                $action = new ActionTouite();
                 break;
             case 'sign-in':
-                $action = new AddPodcastTrack();
+                $action = new ActionSignin();
                 break;
             case 'vote':
-                $action = new DisplayPlaylist();
+                $action = new ActionVote();
                 break;
             case 'destroytouite':
-                $action = new DisplayPlaylist();
+                $action = new ActionDestroyTouite();
                 break;
             case 'changepage':
-                $action = new DisplayPlaylist();
+                $action = new ActionChangePage();
                 break;
             case 'followtag':
-                $action = new DisplayPlaylist();
+                $action = new ActionFollowTag();
                 break;
             case 'unfollowtag':
-                $action = new DisplayPlaylist();
+                $action = new ActionUnfollowTag();
                 break;
             case 'followuser':
-                $action = new DisplayPlaylist();
+                $action = new ActionFollowUser();
                 break;
             case 'unfollowuser':
-                $action = new DisplayPlaylist();
+                $action = new ActionUnfollowUser();
                 break;
             case 'looktouite':
-                $action = new DisplayPlaylist();
+                $action = new ActionLookTouite();
                 break;
             case 'register':
-                $action = new DisplayPlaylist();
+                $action = new ActionRegister();
                 break;
         }
 
