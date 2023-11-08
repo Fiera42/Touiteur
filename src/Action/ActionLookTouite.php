@@ -2,10 +2,12 @@
 
 namespace touiteur\action;
 
-class ActionPersonne extends Action {
+use touiteur\User\Touite;
+
+class ActionLookTouite extends Action {
     public function execute() : string {
-        $_GET['idtouite']; //the id of the user we want to look closely
-        $html='show the touite';
-        return $html;
+        ; //the id of the user we want to look closely
+        $touite = Touite::getTouiteFromId($_GET['idtouite']);
+        return $touite->displayDetaille();
     }
 }
