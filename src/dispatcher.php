@@ -83,10 +83,13 @@ class Dispatcher {
         $hideConnection = (isset($_SESSION['user']))?"style='display:none'":"";
         $hidePost = (!isset($_SESSION['user']))?"style='display:none'":"";
 
-        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite") {
+        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite" || $_GET['action'] == "search") {
             $hideConnection = "style='display:none'";
             $hidePost = "style='display:none'";
         }
+
+        if(isset($_SESSION['user'])) $profil = 'lookUser&iduser='.$_SESSION['user']->getId();
+        else $profil = "register";
 
         $html = "<!DOCTYPE html>
         <html lang=\"fr\">
@@ -104,7 +107,7 @@ class Dispatcher {
         
             <nav class=\"nav\">
                 <a class=\"nav\" href=\"?\"><button class=\"stylized\">home</button></a>
-                <a class=\"nav\" href=\"?action=lookUser&iduser=id\"><button class=\"stylized\">profile</button></a>
+                <a class=\"nav\" href=\"?action={$profil}\"><button class=\"stylized\">profile</button></a>
                 <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
             </nav>
         
