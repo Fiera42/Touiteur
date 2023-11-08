@@ -81,7 +81,8 @@ class Dispatcher {
 
         $hideConnection = (isset($_SESSION['user']))?"style='display:none'":"";
         $hidePost = (!isset($_SESSION['user']))?"style='display:none'":"";
-        if($_GET['action'] == "lookuser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite") {
+
+        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite") {
             $hideConnection = "style='display:none'";
             $hidePost = "style='display:none'";
         }
@@ -101,9 +102,9 @@ class Dispatcher {
             </header>
         
             <nav class=\"nav\">
-                <a class=\"nav\" href=\"index.html\"><button class=\"stylized\">home</button></a>
-                <a class=\"nav\" href=\"index.html?action=lookUser&iduser=id\"><button class=\"stylized\">profile</button></a>
-                <a class=\"nav\" href=\"index.html?action=search\"><button class=\"stylized\">search</button></a>
+                <a class=\"nav\" href=\"?\"><button class=\"stylized\">home</button></a>
+                <a class=\"nav\" href=\"?action=lookUser&iduser=id\"><button class=\"stylized\">profile</button></a>
+                <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
             </nav>
         
             <aside class=\"mascotte\">
@@ -112,7 +113,7 @@ class Dispatcher {
         
             <div id=\"feed\">
                 <!-- NOTE : only visible for connected user-->
-                <form class=\"post\" method=\"post\" action=\"index.html?action=touite\" {$hideConnection}>
+                <form class=\"post\" method=\"post\" action=\"?action=touite\" {$hidePost}>
                     <h2>Envoyer un touite</h2>
                     <textarea name=\"text\" maxlength=\"235\" placeholder=\"Votre incroyable touite ici\"> </textarea>
                     <input type=\"file\" name=\"img\">
@@ -121,13 +122,14 @@ class Dispatcher {
                 </form>
         
                 <!-- when not connected, show that instead -->
-                <form class=\"connection\" method=\"post\" action=\"index.html?action=sign-in\" {$hidePost}>
+                <form class=\"connection\" method=\"post\" action=\"?action=sign-in\" {$hideConnection}>
                     <h2>Se connecter</h2>
                     <p>Email</p>
                     <input type=\"email\" name=\"email\" placeholder=\"Email\">
                     <p>Mot de passe</p>
                     <input type=\"password\" name=\"password\" placeholder=\"Mot de passe\">
                     <button type=\"submit\">Connexion</button>
+                    <a href=\"?action=register\">Créé un compte</a>
                 </form>
                 ".$page."
             </div>
