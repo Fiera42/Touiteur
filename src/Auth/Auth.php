@@ -10,7 +10,7 @@ class Auth {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         ConnexionFactory::makeConnection();
-        $query = "select * from user where email = ?;";
+        $query = "select * from touiteuruser where email = ?;";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
         $prepared_query->execute();
@@ -22,7 +22,7 @@ class Auth {
 
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
-        $query = "insert into user (email, passwd, role) values (?, ?, ?)";
+        $query = "insert into touiteuruser (email, password, role) values (?, ?, ?)";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
         $prepared_query->bindParam(2, $password, PDO::PARAM_STR, 32);
@@ -36,12 +36,12 @@ class Auth {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         ConnexionFactory::makeConnection();
-        $query = "select passwd, role from user where email = ?;";
+        $query = "select password, role from touiteuruser where email = ?;";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
         $prepared_query->execute();
         $bdPass = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
-        
+
         if(!isset($bdPass[0]['passwd'])) throw new AuthException("Unknown user");
 
         if(password_verify($password, $bdPass[0]['passwd'])) {
@@ -53,7 +53,7 @@ class Auth {
 
     public static function checkAccessLevel(int $required): void {
         $userLevel = $_SESSION['user']['role'];
-        
+
         if (!$userLevel >= $required) throw new Exception("droits insuffisants");
     }
 
