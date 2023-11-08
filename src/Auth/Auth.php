@@ -51,7 +51,7 @@ class Auth {
             $prepared_query = ConnexionFactory::$db->prepare($query);
             $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
             $prepared_query->execute();
-            $use=User::getUserFromId($prepared_query->fecth());
+            $use=User::getUserFromId($prepared_query->fetch());
             $_SESSION['user'] = $use;
             return true;
         }
