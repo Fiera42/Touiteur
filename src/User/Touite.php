@@ -137,6 +137,9 @@ return $reponse;
                 $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
+
+                $prepared=$pdo->prepare("Update Touit set note=note+1 where idTouit=$this->idTouit");
+                $prepared->execute();
             } else {
                 $this->score--;
                 $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
@@ -144,6 +147,9 @@ return $reponse;
                 $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
+
+                $prepared=$pdo->prepare("Update Touit set note=note-1 where idTouit=$this->idTouit");
+                $prepared->execute();
             }
         }else echo "vous avez deja voter pour ce touite";
     }
