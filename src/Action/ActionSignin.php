@@ -7,7 +7,7 @@ use touiteur\User\User;
 
 class ActionSignin extends Action {
     public function execute() : string {
-        $mail=$_POST['mail']; //the mail of the person wanting to signin
+        $mail=$_POST['email']; //the mail of the person wanting to signin
         $passwd=$_POST['password']; //the password of the person wanting to signin
         if (Auth::authenticate($mail,$passwd))
         {

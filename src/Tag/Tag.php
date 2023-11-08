@@ -5,6 +5,8 @@ namespace touiteur\Tag;
 use touiteur\TouiteList\TouiteList;
 use touiteur\Auth\ConnexionFactory;
 use PDO;
+use touiteur\User\Touite;
+use touiteur\User\User;
 
 class Tag{
     private string $name;
@@ -22,11 +24,11 @@ class Tag{
     public function getTouiteListFromTag() :TouiteList{
         ConnexionFactory::makeConnection();
 
-        $query = "SELECT email , password , role , text, date from touit join touittag on touit.idtouit = touittag.idtouit 
+        $query = "SELECT touit.iduser, touit.idtouit from touit join touittag on touit.idtouit = touittag.idtouit 
                                                 join touiteuruser on touit.iduser = touiteuruser.iduser where idtag =?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
-        $id = this->getId() ;
+        $id = $this->getId() ;
         $prepared_query->bindParam(1, $id, PDO::PARAM_STR, 32);
 
         $prepared_query->execute();
@@ -35,9 +37,9 @@ class Tag{
 
         $list = new TouiteList();
         foreach ($res as $row){
-            $aut = new User($row['email'] , $row['passwd'] , $row['role']);
-            $touit = new Touite($aut , $row['text'] , $row['date']);
-            $list->addTouit($touit);
+            $aut = User::getUserFromId($row['iduser']);
+            $touit = Touite::getTouiteFromId($row['idtouit']);
+            $list->addTouite($touit);
         }
         return $list;
     }
@@ -69,5 +71,9 @@ class Tag{
     function getId() : int
     {
         return $this->id ;
+    }
+
+    function getName() : string {
+        return $this->name ;
     }
 }

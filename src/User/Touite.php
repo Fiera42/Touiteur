@@ -163,10 +163,19 @@ class Touite {
             $hideDelete = "style='display:none'";
             $hideVote = "style='display:none'";
         }
+        $text = $this->texte ;
+        if (!empty($this->tags)) {
+            foreach ($this->tags as $tag) {
+                $tagLink = "<a href=\"?action=looktag&idtag={$tag->getId()}\">#{$tag->getName()}</a>";
+                $text = str_replace('#'.$tag->getName(), $tagLink, $text);
+            }
+
+
+    }
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
-                    <p class=\"touite-content\"> {$this->texte} </p>
+                    <p class=\"touite-content\"> {$text} </p>
                     <div class=\"vote\">
                         <!-- idTouite should be the same as the id of the touite-->
                         <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\" $hideVote><button>&#11205;</button><a></a>
