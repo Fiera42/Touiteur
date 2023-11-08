@@ -157,16 +157,19 @@ class Touite {
     }
     public function displaySimple() : string {
 
-        if(isset($_SESSION['user'])) $hideDelete = ($this->author->getId() == $_SESSION['user']->getId())?"HIDDEN":"";
-        else $hideDelete = "HIDDEN";
+        if(isset($_SESSION['user'])) $hideDelete = ($this->author->getId() == $_SESSION['user']->getId())?"style='display:none'":"";
+        else {
+            $hideDelete = "style='display:none'";
+            $hideVote = "style='display:none'";
+        }
 
         $html = "<div class=\"touite\" onclick=\"location.href='index.html?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"index.html?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
                     <p class=\"touite-content\"> {$this->texte} </p>
                     <div class=\"vote\">
                         <!-- idTouite should be the same as the id of the touite-->
-                        <a href=\"index.html?action=vote&idtouite={$this->idTouit}&value=true\"><button>&#11205;</button><a></a>
-                        <a href=\"index.html?action=vote&idtouite={$this->idTouit}&value=false\"><button>&#11206;</button></a>
+                        <a href=\"index.html?action=vote&idtouite={$this->idTouit}&value=true\" $hideVote><button>&#11205;</button><a></a>
+                        <a href=\"index.html?action=vote&idtouite={$this->idTouit}&value=false\" $hideVote><button>&#11206;</button></a>
 
                         <!-- only show this if it's a touite of the user -->
                         <!-- ofc still check if it's the good user when clicking -->
