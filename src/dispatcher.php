@@ -60,6 +60,9 @@ class Dispatcher {
             case 'looktouite':
                 $action = new ActionLookTouite();
                 break;
+            case 'looktag':
+                $action = new ActionLookTag();
+                break;
             case 'register':
                 $action = new ActionRegister();
                 break;
