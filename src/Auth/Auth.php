@@ -1,8 +1,8 @@
 <?php
 
-namespace touiteur\auth;
+namespace touiteur\Auth;
 
-use \iutnc\touiteur\auth\ConnexionFactory;
+use touiteur\auth\ConnexionFactory;
 use PDO;
 use touiteur\User\User;
 
