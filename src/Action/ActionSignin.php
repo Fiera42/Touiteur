@@ -11,9 +11,10 @@ class ActionSignin extends Action {
         $passwd=$_POST['password']; //the password of the person wanting to signin
         if (Auth::authenticate($mail,$passwd))
         {
-            $html='if signed in, nothing,';
+            $acttion=new ActionDisplayPage();
+            $html=$acttion->execute();
         }
-        else{$html ='else we show the sign-in page';}
+        else{$html ='else we show the register page';}
         //register the person into the session
         return $html;
     }
