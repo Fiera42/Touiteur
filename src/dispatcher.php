@@ -1,6 +1,7 @@
 <?php
 namespace touiteur;
 
+use touiteur\action\ActionLookTag;
 use touiteur\Action\ActionLookUser;
 use touiteur\Action\ActionSearch;
 use touiteur\Action\ActionTouite;
