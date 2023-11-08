@@ -92,8 +92,7 @@ class Touite {
 
 
 
-    static function publishTouite(User $aut, string $t) : array
-    {
+    static function publishTouite(User $aut, string $t, string $srcimage) : array {
         ConnexionFactory::makeConnection();
         $pdo = ConnexionFactory::$db;
         $query = "Select TagName from TAG";
