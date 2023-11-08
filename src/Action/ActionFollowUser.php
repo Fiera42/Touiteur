@@ -1,10 +1,14 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
 
-class ActionPersonne extends Action {
+use touiteur\User\User;
+
+class ActionFollowUser extends Action {
     public function execute() : string {
-        $_GET['iduser']; //the id of the user we want to follow
+        $user1 = User::getUserFromId($_GET['iduser']); //the id of the user we want to follow
+        $user2 = User::getUserFromId(($_SESSION['iduser']));
+        $user2->followUser($user1);
         $html='Reload the page';
         return $html;
     }
