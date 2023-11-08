@@ -97,6 +97,11 @@ VALUES
 (2, '1', 'Patrique', 'Sébastien', 'PatSeb@gmail.com' , 'pierre'),
 (3, '1', 'Patrique', 'Balkany', 'Balka239@laposte.net' , 'tartiflette');
 
+-- Insertion de données dans la table Image
+INSERT INTO Image (idimage, altImage, imagePath)
+VALUES
+(1, 'La pochette de mon album', 'userImage/1_pochetteAlbum.png')
+
 -- Insertion de données dans la table Touit
 INSERT INTO Touit (idtouit, idUser, text, date, note, idimage)
 VALUES
@@ -108,11 +113,7 @@ VALUES
 INSERT INTO Tag (idtag, tagName, description, nbUsage)
 VALUES
 (1, 'musique', 'des touites parlant de musique', 1);
-
--- Insertion de données dans la table Image
-INSERT INTO Image (idimage, altImage, imagePath, idtouit)
-VALUES
-(1, 'La pochette de mon album', 'userImage/1_pochetteAlbum.png', 3);
+;
 
 -- Insertion de données dans la table FollowUser
 INSERT INTO FollowUser (idUser, idFollower)
