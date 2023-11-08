@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+   <head>
+      <title>Touiteur</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="mainStyle.css">
+   </head>
+
+   <body>
+    <header>
+        <img class="logo" src="../ressource/Logo.png" alt="Le logo de touiteur">
+    </header>
+
+    <nav class="nav">
+        <a class="nav" href="htmlTemplate_TAGPAGE.html"><button class="stylized">home</button></a>
+        <a class="nav" href="htmlTemplate_TAGPAGE.html?action=lookUser&user=me"><button class="stylized">profile</button></a>
+        <a class="nav" href="htmlTemplate_TAGPAGE.html?action=search"><button class="stylized">search</button></a>
+    </nav>
+
+    <aside class="mascotte">
+        <img src="https://media.tenor.com/BXQgJskV7LgAAAAj/9999.gif">
+    </aside>
+
+    <div id="feed">
+        <div id="followable">
+            <h1>Tag</h1>
+
+            <!-- when the user is not connected, hide -->
+            <a class="tag" href="htmlTemplate_TAGPAGE.html?action=followtag&idtag=id"><button class="stylized">Suivre</button></a>
+            <!-- when the user is following this tag, we change the button to this-->
+            <a class="tag" href="htmlTemplate_TAGPAGE.html?action=unfollowtag&idtag=id"><button class="stylized">Ne plus suivre</button></a>
+        </div>
+
+        <!-- TO DO : MAKE THE CONTAINER CLICKABLE TO SHOW THE TOUITE IN BIG AND WITH THE PICTURE -->
+        <!-- probly do that in javascript -->
+        <div class="touite" onclick="location.href='htmlTemplate_TAGPAGE.html?action=looktouite&idtouite=id'">
+            <a class="touite" href="htmlTemplate_TAGPAGE.html?action=lookUser&iduser=id">Username</a>
+            <time>10/05/2024 11H03</time>
+            <p class="touite">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit </p>
+            <div class="vote">
+                <!-- idTouite should be the same as the id of the touite-->
+                <a href="htmlTemplate_TAGPAGE.html?action=vote&idtouite=1&value=true"><button>&#11205;</button><a></a>
+                <a href="htmlTemplate_TAGPAGE.html?action=vote&idtouite=1&value=false"><button>&#11206;</button></a>
+            </div>
+        </div>
+
+        <div class="touite" onclick="location.href='htmlTemplate_TAGPAGE.html?action=looktouite&idtouite=id'">
+            <a class="touite-userName" href="htmlTemplate_TAGPAGE.html?action=lookUser&iduser=id">anotherUser</a>
+            <p class="touite-content"> dolor in reprehenderit </p>
+            <div class="vote">
+                <!-- idTouite should be the same as the id of the touite-->
+                <a href="htmlTemplate_TAGPAGE.html?action=vote&idtouite=1&value=true"><button>&#11205;</button><a></a>
+                <a href="htmlTemplate_TAGPAGE.html?action=vote&idtouite=1&value=false"><button>&#11206;</button></a>
+
+                <!-- only show this if it's a touite of the user -->
+                <!-- ofc still check if it's the good user when clicking -->
+                <a href="htmlTemplate_TAGPAGE.html?action=destroyTouite&idtouite=1"><button>&#9587;</button></a>
+            </div>
+        </div>
+    </div>
+
+    <div id="changePage">
+        <!-- this page should be the previous one -->
+        <!-- we add an "hidden" attribute when we reached the edge of the list-->
+        <a href="htmlTemplate_TAGPAGE.html?action=changepage&page=1"><button hidden>&#129032;</button><a>
+            <!-- this page should be the first one -->
+        <a href="htmlTemplate_TAGPAGE.html?action=changepage&page=1">1</a>
+        <p>...</p>
+        <!-- this page should be the last one -->
+        <a href="htmlTemplate_TAGPAGE.html?action=changepage&page=10">10</a>
+        <!-- this page should be the next one -->
+        <a href="htmlTemplate_TAGPAGE.html?action=changepage&page=2"><button>&#129034;</button></a>
+    </div>
+   </body>
+<html>
