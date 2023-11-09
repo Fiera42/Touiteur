@@ -13,6 +13,7 @@ class ActionSignin extends Action {
         {
             $acttion=new ActionDisplayPage();
             $html=$acttion->execute();
+            //register the person into the session
         }
         else{$html ='<form class="connection" method="post" action="?action=register">
             <h2>S\'inscrire</h2>
@@ -27,7 +28,7 @@ class ActionSignin extends Action {
             <button type="submit">Connexion</button>
             <p>Etes vous sur d\'avoir un compte ?</p>
         </form>';}
-        //register the person into the session
+
         return $html;
     }
 }
