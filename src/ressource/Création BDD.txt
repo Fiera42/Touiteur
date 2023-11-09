@@ -4,7 +4,7 @@ create table TouiteurUser (
 	name varchar(20) not null,
 	fullname varchar(20) not null,
 	email varchar(30) not null,
-	password varchar(30) not null
+	password varchar(300) not null
 	);
 
 create table Touit (

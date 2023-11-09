@@ -2,12 +2,15 @@
 
 namespace touiteur\action;
 
+use touiteur\User\Touite;
+
 class ActionTouite extends Action {
     public function execute() : string {
         if(!isset($_SESSION['user'])) {
             $_GET['action'] = 'register';
             $_SERVER['REQUEST_METHOD'] = 'GET';
-            return new ActionRegister()->execute();
+            $action =new ActionRegister();
+            return $action->execute();
         }
 
         if(isset($_FILES['img'])) {
@@ -24,13 +27,13 @@ class ActionTouite extends Action {
             else {
                 ConnexionFactory::makeConnection();
                 $pdo = ConnexionFactory::$db;
-                $idimage = $pdo->prepare('SELECT max(idmage) as id FROM image');
+                $idimage = $pdo->prepare('SELECT max(idimage) as id FROM image');
                 $idimage->execute();
                 $idimage = $idimage->fetchAll(PDO::FETCH_ASSOC)[0]['id'] + 1;
 
                 $uploaddir = 'ressource/userimage/';
                 $uploadfile = $uploaddir."{$idimage}_".basename($_FILES['img']['name']);
-            
+
                 if (move_uploaded_file($_FILES['img']['tmp_name'], $uploadfile)) {
                 } else {
                     echo "Possible file upload attack!\n";
@@ -43,12 +46,14 @@ class ActionTouite extends Action {
                 $prepared->bindParam(1, $idimage, PDO::PARAM_INT, 50);
                 $prepared->bindParam(2, $_POST['img_desc'], PDO::PARAM_STR, 235);
                 $prepared->bindParam(3, $uploadfile, PDO::PARAM_STR, 50);
-                $idTouit->execute();
+                $prepared->execute();
             }
         }
 
         else $idimage = null;
 
         Touite::publishTouite($_SESSION['user'], $_POST['text'], $idimage);
+        $action = new ActionDisplayPage();
+        return $action->execute();
     }
 }

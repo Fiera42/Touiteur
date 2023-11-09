@@ -195,7 +195,7 @@ class Touite {
     }
     public function displaySimple() : string {
 
-        if(isset($_SESSION['user'])) $hideDelete = ($this->author->getId() == $_SESSION['user']->getId())?"style='display:none'":"";
+        if(isset($_SESSION['user'])) {$hideVote='';$hideDelete = ($this->author->getId() == $_SESSION['user']->getId())?"style='display:none'":"";}
         else {
             $hideDelete = "style='display:none'";
             $hideVote = "style='display:none'";
