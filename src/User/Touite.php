@@ -121,23 +121,23 @@ class Touite {
         if($idimage != -1) $prepared->bindParam(4, $idimage, PDO::PARAM_INT, 50);
         $prepared->execute();
 
-        echo $date;
-
         $idTouit = $pdo->prepare("SELECT idTouit FROM touit WHERE idUser = ? AND date LIKE ?");
         $idTouit->bindParam(1, $idUser, PDO::PARAM_INT, 50);
         $idTouit->bindParam(2, $date, PDO::PARAM_STR, 235);
         $idTouit->execute();
-        $idTouit = $idTouit->fetchAll(PDO::FETCH_ASSOC)[0]['idtouit'];
+        $idTouit = $idTouit->fetchAll(PDO::FETCH_ASSOC);
+        $idTouit = $idTouit[0]['idTouit'];
 
         //update tags        
-        $query = "Select idtag from tag where tagname = ?";
+        $query = "Select idtag from tag where tagname LIKE ?";
         $prepared = $pdo->prepare($query);
         $list = Touite::findTag($t);
         
         foreach ($list as $value) {
             $prepared->bindParam(1,$value,PDO::PARAM_STR,50);
             $prepared->execute();
-            $dbResponse = $prepared->fetchAll(PDO::FETCH_ASSOC)[0]['idtag'];
+            $dbResponse = $prepared->fetchAll(PDO::FETCH_ASSOC);
+            $dbResponse = $dbResponse[0]['idtag'];
 
             $value = htmlentities($value);
 
