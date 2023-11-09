@@ -4,25 +4,51 @@ namespace touiteur\action;
 
 class ActionTouite extends Action {
     public function execute() : string {
-        $_POST['text']; //the text of the touite
-        $_POST['img']; //the file of the touite
-        $_POST['img_desc']; //the description of the img (the alt param of img)
-        $_SESSION['user']->id; //the id of the person wanting to touite
-        $html='Page de la personne avec ces touites les plus récents (TO DO)';
-        return $html;
-
-        if(!str_contains($_FILES['img']['type'], "image/")) return "";
-    
-        $uploaddir = 'ressource/userimage/';
-        $uploadfile = $uploaddir.basename($_FILES['fichier']['name']);
-    
-        
-        if (move_uploaded_file($_FILES['fichier']['tmp_name'], $uploadfile)) {
-        } else {
-            echo "Possible file upload attack!\n";
+        if(!isset($_SESSION['user'])) {
+            $_GET['action'] = 'register';
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            return new ActionRegister()->execute();
         }
-        
-    
-        return "File uploaded !";
+
+        if(isset($_FILES['img'])) {
+            //avoid injection from filenames
+            $_FILES['img']['name'] = str_replace('<', '&lt;' , $_FILES['img']['name']);
+            $_FILES['img']['name'] = str_replace('>', '&gt;' , $_FILES['img']['name']);
+            $_FILES['img']['name'] = str_replace('"', "" , $_FILES['img']['name']);
+            $_FILES['img']['name'] = str_replace("'", "" , $_FILES['img']['name']);
+
+            if(!str_contains($_FILES['img']['type'], "image/")) {
+                $idimage = null;
+            }
+
+            else {
+                ConnexionFactory::makeConnection();
+                $pdo = ConnexionFactory::$db;
+                $idimage = $pdo->prepare('SELECT max(idmage) as id FROM image');
+                $idimage->execute();
+                $idimage = $idimage->fetchAll(PDO::FETCH_ASSOC)[0]['id'] + 1;
+
+                $uploaddir = 'ressource/userimage/';
+                $uploadfile = $uploaddir."{$idimage}_".basename($_FILES['img']['name']);
+            
+                if (move_uploaded_file($_FILES['img']['tmp_name'], $uploadfile)) {
+                } else {
+                    echo "Possible file upload attack!\n";
+                }
+
+                $_POST['img_desc'] = htmlentities($_POST['img_desc']);
+
+                $query = "INSERT INTO image (idimage, altimage, imagepath) values (?, ?, ?)";
+                $prepared = $pdo->prepare($query);
+                $prepared->bindParam(1, $idimage, PDO::PARAM_INT, 50);
+                $prepared->bindParam(2, $_POST['img_desc'], PDO::PARAM_STR, 235);
+                $prepared->bindParam(3, $uploadfile, PDO::PARAM_STR, 50);
+                $idTouit->execute();
+            }
+        }
+
+        else $idimage = null;
+
+        Touite::publishTouite($_SESSION['user'], $_POST['text'], $idimage);
     }
 }

@@ -115,6 +115,12 @@ class Touite {
         $prepared->bindParam(3, $idimage, PDO::PARAM_INT, 50);
         $prepared->bindParam(4, $date, PDO::PARAM_STR, 50);
 
+        $idTouit = $pdo->prepare("SELECT idTouit FROM touit WHERE idUser = ? AND date = ?");
+        $idTouit->bindParam(1, $aut->getId(), PDO::PARAM_INT, 50);
+        $idTouit->bindParam(2, $date, PDO::PARAM_STR, 235);
+        $idTouit->execute();
+        $idTouit = $prepared->fetchAll(PDO::FETCH_ASSOC)[0]['idtouit'];
+
         //update tags        
         $query = "Select idtag from tag where tagname = ?";
         $prepared = $pdo->prepare($query);
@@ -144,7 +150,7 @@ class Touite {
 
             $insertTag = $pdo->prepare("INSERT INTO touittag (idtag, idtouit) values (?, ?)");
             $insertTag->bindParam(1,$idTag, PDO::PARAM_STR, 50);
-            $insertTag->bindParam(2,$aut->getId(), PDO::PARAM_STR, 50);
+            $insertTag->bindParam(2,$idTouit, PDO::PARAM_STR, 50);
             $insertTag->execute();
         }
     }

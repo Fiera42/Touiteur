@@ -26,8 +26,7 @@ create table Tag (
 create table Image (
 	idimage int primary key not null AUTO_INCREMENT,
 	altImage varchar(100) not null,
-	imagePath varchar(50) not null,
-	idtouit int not null
+	imagePath varchar(50) not null
 	);
 
 create table FollowUser (
