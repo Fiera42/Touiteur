@@ -122,7 +122,7 @@ class Touite {
                 $query = "Update Tag set nbUsage=nbUsage+1 where TagName= $value";
                 $value='';
             } else {
-                $query = "Insert into Tag (tagName, description, nbUsage) values ($value,'des touites parlant de'.$value,2)";
+                $query = "Insert into Tag (tagName, description, nbUsage) values ($value,'des touites parlant de'.$value,1)";
             }
         }
         return $list;
