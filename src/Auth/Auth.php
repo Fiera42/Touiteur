@@ -41,22 +41,22 @@ class Auth {
         ConnexionFactory::makeConnection();
         $query = "select password, role from touiteuruser where email = ?;";
         $prepared_query = ConnexionFactory::$db->prepare($query);
-        $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(1, $email);
         $prepared_query->execute();
-        $bdPass = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+        $bdPass = $prepared_query->fetch();
 
-        if(!isset($bdPass[0]['passwd'])) return false;
-
-        if(password_verify($password, $bdPass[0]['passwd'])) {
-            $query = "select iduser from touiteuruser where email = ?;";
-            $prepared_query = ConnexionFactory::$db->prepare($query);
-            $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
-            $prepared_query->execute();
-            $use=User::getUserFromId($prepared_query->fetch());
-            $_SESSION['user'] = $use;
-            return true;
-        }
-        else return false;
+        if(!isset($bdPass['password'])) {return false;}
+        else
+            if(password_verify($password, $bdPass['password'])) {
+                $query = "select iduser from touiteuruser where email = ?;";
+                $prepared_query = ConnexionFactory::$db->prepare($query);
+                $prepared_query->bindParam(1, $email);
+                $prepared_query->execute();
+                $use=User::getUserFromId($prepared_query->fetch()['iduser']);
+                $_SESSION['user'] = $use;
+                return true;
+            }
+            else {return false;}
     }
 
     public static function checkAccessLevel(int $required): void {
