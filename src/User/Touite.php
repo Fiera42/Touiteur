@@ -91,35 +91,58 @@ class Touite {
         return $reponse;
     }
 
-
-
-
-    static function publishTouite(User $aut, string $t, string $srcimage) : array {
+    static function publishTouite(User $aut, string $t, int $idimage) : void {
         ConnexionFactory::makeConnection();
         $pdo = ConnexionFactory::$db;
-        $query = "Select TagName from TAG";
+        $t = htmlentities($t);
+
+        //generate date
+        date_default_timezone_set('Europe/Paris');
+        $date = date(DATE_ATOM);
+
+        //insert the touite
+        $query = "INSERT INTO touit (idUser, text, idimage, date) values (?, ?, ?, ?)";
+        $prepared = $pdo->prepare($query);
+        $prepared->bindParam(1, $aut->getId(), PDO::PARAM_INT, 50);
+        $prepared->bindParam(2, $t, PDO::PARAM_STR, 235);
+        $prepared->bindParam(3, $idimage, PDO::PARAM_INT, 50);
+        $prepared->bindParam(4, $date, PDO::PARAM_STR, 50);
+
+        //update tags        
+        $query = "Select idtag from tag where tagname = ?";
         $prepared = $pdo->prepare($query);
         $list = Touite::findTag($t);
-
-
+        
         foreach ($list as $value) {
-            $trouve = false;
+            $prepared->bindParam(1,$value,PDO::PARAM_STR,50);
             $prepared->execute();
-            while ($donne = $prepared->fetch()) {
-                if ($value == $donne['TagName']) {
-                    $trouve = true;
-                }
+            $dbResponse = $prepared->fetchAll(PDO::FETCH_ASSOC)[0]['idtag'];
+
+            $value = htmlentities($value);
+
+            if(isset($dbResponse)) {
+                $insertTag = $pdo->prepare("Update tag set nbusage = nbusage + 1 where idtag = $dbResponse");
+                $insertTag->execute();
+            }
+            else {
+                $insertTag = $pdo->prepare("Insert into Tag (tagName, description, nbUsage) values (?,'des touites parlant de '.$value,1)");
+                $insertTag->bindParam(1,$value, PDO::PARAM_STR, 50);
+                $insertTag->execute();
             }
 
-            if ($trouve = true) {
-                $query = "Update Tag set nbUsage=nbUsage+1 where TagName= $value";
-                $value='';
-            } else {
-                $query = "Insert into Tag (tagName, description, nbUsage) values ($value,'des touites parlant de'.$value,1)";
-            }
+            $idTag = $pdo->prepare("Select idtag from tag where tagname = ?");
+            $idTag->bindParam(1, $value, PDO::PARAM_STR, 50);
+            $idTag->execute();
+            $idTag = $idTag->fetchAll(PDO::FETCH_ASSOC)[0]['idtag'];
+
+            $insertTag = $pdo->prepare("INSERT INTO touittag (idtag, idtouit) values (?, ?)");
+            $insertTag->bindParam(1,$idTag, PDO::PARAM_STR, 50);
+            $insertTag->bindParam(2,$aut->getId(), PDO::PARAM_STR, 50);
+            $insertTag->execute();
         }
-        return $list;
     }
+        
+        
 
 
 

@@ -18,8 +18,6 @@ class ActionTouite extends Action {
     
         
         if (move_uploaded_file($_FILES['fichier']['tmp_name'], $uploadfile)) {
-            $newTrack = new PodcastTrack('nom', 'auteur', 'album', 0, 'genre', 1, -30, $uploadfile);
-            $_SESSION['playlist']->addTrack($newTrack);
         } else {
             echo "Possible file upload attack!\n";
         }
