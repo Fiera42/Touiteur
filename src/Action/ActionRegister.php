@@ -25,7 +25,7 @@ class ActionRegister extends Action {
             $fullllllllnammmeeeeeee = filter_var($_POST['fullname'],FILTER_SANITIZE_STRING); //the fullname of the registering user
             $mail =  filter_var($_POST['mail'],FILTER_SANITIZE_EMAIL);                       //the email of the registering user
             $passwd = ($_POST['password']);                                                        //the password of the registering user
-            if (Auth::register($mail, $passwd, 1, $name, $fullllllllnammmeeeeeee)) {
+            if (Auth::register($mail, $passwd, $name, $fullllllllnammmeeeeeee)) {
                 $action = new ActionDisplayPage();
                 $html = $action->execute();
             } else {

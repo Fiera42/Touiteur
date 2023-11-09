@@ -8,7 +8,7 @@ use touiteur\User\User;
 
 class Auth {
 
-    public static function register(string $email, string $password, int $role = 1,String $name,String $fullname) : bool {
+    public static function register(string $email, string $password, String $name,String $fullname, int $role = 1) : bool {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         ConnexionFactory::makeConnection();

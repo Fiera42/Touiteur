@@ -98,7 +98,7 @@ class Touite {
         return $reponse;
     }
 
-    static function publishTouite(User $aut, string $t, int $idimage) : void {
+    static function publishTouite(User $aut, string $t, int $idimage = -1) : void {
         ConnexionFactory::makeConnection();
         $pdo = ConnexionFactory::$db;
         $t = htmlentities($t);
@@ -106,20 +106,28 @@ class Touite {
         //generate date
         date_default_timezone_set('Europe/Paris');
         $date = date(DATE_ATOM);
+        $date = str_replace("+01:00", "", $date);
+        $date = str_replace("T", " ", $date);
 
         //insert the touite
-        $query = "INSERT INTO touit (idUser, text, idimage, date) values (?, ?, ?, ?)";
-        $prepared = $pdo->prepare($query);
-        $prepared->bindParam(1, $aut->getId(), PDO::PARAM_INT, 50);
-        $prepared->bindParam(2, $t, PDO::PARAM_STR, 235);
-        $prepared->bindParam(3, $idimage, PDO::PARAM_INT, 50);
-        $prepared->bindParam(4, $date, PDO::PARAM_STR, 50);
+        if($idimage == -1) $query = "INSERT INTO touit (idUser, text, date) values (?, ?, ?)";
+        else $query = "INSERT INTO touit (idUser, text, date, idimage) values (?, ?, ?, ?)";
 
-        $idTouit = $pdo->prepare("SELECT idTouit FROM touit WHERE idUser = ? AND date = ?");
-        $idTouit->bindParam(1, $aut->getId(), PDO::PARAM_INT, 50);
+        $idUser = $aut->getId();
+        $prepared = $pdo->prepare($query);
+        $prepared->bindParam(1, $idUser, PDO::PARAM_INT, 50);
+        $prepared->bindParam(2, $t, PDO::PARAM_STR, 235);
+        $prepared->bindParam(3, $date, PDO::PARAM_STR, 50);
+        if($idimage != -1) $prepared->bindParam(4, $idimage, PDO::PARAM_INT, 50);
+        $prepared->execute();
+
+        echo $date;
+
+        $idTouit = $pdo->prepare("SELECT idTouit FROM touit WHERE idUser = ? AND date LIKE ?");
+        $idTouit->bindParam(1, $idUser, PDO::PARAM_INT, 50);
         $idTouit->bindParam(2, $date, PDO::PARAM_STR, 235);
         $idTouit->execute();
-        $idTouit = $prepared->fetchAll(PDO::FETCH_ASSOC)[0]['idtouit'];
+        $idTouit = $idTouit->fetchAll(PDO::FETCH_ASSOC)[0]['idtouit'];
 
         //update tags        
         $query = "Select idtag from tag where tagname = ?";

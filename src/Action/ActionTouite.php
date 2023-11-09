@@ -50,9 +50,8 @@ class ActionTouite extends Action {
             }
         }
 
-        else $idimage = null;
-
-        Touite::publishTouite($_SESSION['user'], $_POST['text'], $idimage);
+        if(isset($idimage)) Touite::publishTouite($_SESSION['user'], $_POST['text'], $idimage);
+        else Touite::publishTouite($_SESSION['user'], $_POST['text']);
         $action = new ActionDisplayPage();
         return $action->execute();
     }
