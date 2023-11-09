@@ -38,9 +38,16 @@ class Touite {
         $prepared_query->execute();
         $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
-        if(!isset($touit['srcimage'])) $touit['srcimage'] = "";
+        if(!isset($touit['imagePath'])) {
+            $touit['imagePath'] = "";
+        }
 
-        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['date'], $touit['srcimage'], Touite::getTagListFromTouiteID($id), $id ,$touit['idimage'] );
+        if(!isset($touit['idimage'])) {
+            $touit['idimage'] = 0;
+        }
+
+
+        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['date'], $touit['imagePath'], Touite::getTagListFromTouiteID($id), $id ,$touit['idimage'] );
     }
 
     static function getTagListFromTouiteID(int $id) : array {
@@ -199,6 +206,7 @@ class Touite {
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
+                    <time>$this->datePublication</time>
                     <p class=\"touite-content\"> {$text} </p>
                     <div class=\"vote\">
                         <!-- idTouite should be the same as the id of the touite-->
@@ -254,10 +262,14 @@ class Touite {
     }
 
     public function altImage() : string {
-        $query = "SELECT altImage FROM Image WHERE idimage=?";
-        $prepared_query = ConnexionFactory::$db->prepare($query);
-        $prepared_query->bindParam(1, $this->idimage, PDO::PARAM_STR, 32);
-        $prepared_query->execute();
-        return $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]['altImage'];
+        if($this->idimage !==0){
+            $query = "SELECT altImage FROM Image WHERE idimage=?";
+            $prepared_query = ConnexionFactory::$db->prepare($query);
+            $prepared_query->bindParam(1, $this->idimage, PDO::PARAM_STR, 32);
+            $prepared_query->execute();
+            return $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]['altImage'];
+        }else{
+            return  "" ;
+        }
     }
 }

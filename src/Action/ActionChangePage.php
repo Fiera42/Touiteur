@@ -2,10 +2,11 @@
 
 namespace touiteur\action;
 
+use touiteur\User\Touite;
+
 class ActionChangePage extends Action {
     public function execute() : string {
-        $_GET['page']; //the page we want to go to
-        $html='Load the new page';
-        return $html;
+        $touit = Touite::getAllTouite();
+        return $touit->displayPage($_GET['page']);
     }
 }
