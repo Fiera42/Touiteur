@@ -183,6 +183,7 @@ class Touite {
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
+                    <time>$this->datePublication</time>
                     <p class=\"touite-content\"> {$text} </p>
                     <div class=\"vote\">
                         <!-- idTouite should be the same as the id of the touite-->
