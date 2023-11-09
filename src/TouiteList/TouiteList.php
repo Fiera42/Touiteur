@@ -7,7 +7,7 @@ use touiteur\User\Touite;
 class TouiteList{
     private array $touites;
     private int $nbTouitePerPage;
-    public function __construct(array $touite = [], int $nbTouitePerPage = 10 ){
+    public function __construct(array $touite = [], int $nbTouitePerPage = 1 ){
         $this->touites = $touite ;
         $this->nbTouitePerPage = $nbTouitePerPage;
     }
