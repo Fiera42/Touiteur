@@ -212,7 +212,7 @@ class Touite {
                 $prepared=$pdo->prepare("Update Touit set note=note-1 where idTouit=$this->idTouit");
                 $prepared->execute();
             }
-        }else echo "vous avez deja voter pour ce touite";
+        }else {}
     }
 
     public function displaySimple() : string {
@@ -220,6 +220,9 @@ class Touite {
         if(isset($_SESSION['user'])) {
             $hideVote='';
             $hideDelete = ($this->author->getId() != $_SESSION['user']->getId())?"style='display:none'":"";
+            if($this->liked($_SESSION['user'])) {
+                $hideVote = "style='display:none'";
+            }
         }
         else {
             $hideDelete = "style='display:none'";
@@ -231,9 +234,6 @@ class Touite {
                 $tagLink = "<a href=\"?action=looktag&idtag={$tag->getId()}\">#{$tag->getName()}</a>";
                 $text = str_replace('#'.$tag->getName(), $tagLink, $text);
             }
-        }
-        if($this->liked($_SESSION['user'])){
-            $hideVote = "style='display:none'";
         }
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
@@ -260,6 +260,9 @@ class Touite {
         if(isset($_SESSION['user'])) {
             $hideVote='';
             $hideDelete = ($this->author->getId() != $_SESSION['user']->getId())?"style='display:none'":"";
+            if($this->liked($_SESSION['user'])) {
+                $hideVote = "style='display:none'";
+            }
         }
         else {
             $hideDelete = "style='display:none'";
@@ -351,7 +354,7 @@ class Touite {
         $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
         $prepared->execute();
 
-        if(isset($res)) {
+        if(count($res) > 0) {
             $query="select imagePath from image where idimage = ?";
             $prepared = $pdo->prepare($query);
             $prepared->bindParam(1,$idimage,PDO::PARAM_INT,50);
