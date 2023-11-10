@@ -21,7 +21,7 @@ class Touite {
     private int $idTouit;
     private int $idimage;
 
-    public function __construct(User $aut, String $t, String $date, String $srcimage, array $tags, $idTouit , $idimage) {
+    public function __construct(User $aut, String $t, String $date, String $srcimage, array $tags, $idTouit , $idimage, int $score = 0) {
         $this->srcimage= $srcimage;
         $this->author=$aut;
         $this->texte=$t;
@@ -29,6 +29,7 @@ class Touite {
         $this->tags = $tags;
         $this->idTouit = $idTouit;
         $this->idimage = $idimage;
+        $this->score = $score;
     }
 
     static function getTouiteFromId(int $id) : Touite {
@@ -46,8 +47,7 @@ class Touite {
             $touit['idimage'] = 0;
         }
 
-
-        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['date'], $touit['imagePath'], Touite::getTagListFromTouiteID($id), $id ,$touit['idimage'] );
+        return new Touite(User::getUserFromId($touit['idUser']), $touit['text'], $touit['date'], $touit['imagePath'], Touite::getTagListFromTouiteID($id), $id ,$touit['idimage'], $touit['note']);
     }
 
     static function getTagListFromTouiteID(int $id) : array {
@@ -174,13 +174,14 @@ class Touite {
     {
         ConnexionFactory::makeConnection();
         $pdo=ConnexionFactory::$db;
-        $query="Select count(eval) from VoteTouit where iduser = ? and idTouit = ?";
+        $query="Select count(eval) as nbVote from VoteTouit where iduser = ? and idTouit = ?";
         $prepared = $pdo->prepare($query);
-        $prepared->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
+        $userid = $user->getId();
+        $prepared->bindParam(1,$userid,PDO::PARAM_INT,50);
         $prepared->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
         $prepared->execute();
         $donne=$prepared->fetch();
-        if ($donne==0) {
+        if ($donne['nbVote']==0) {
             if ($eval) {
                 $this->score++;
                 $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
@@ -220,15 +221,14 @@ class Touite {
                 $tagLink = "<a href=\"?action=looktag&idtag={$tag->getId()}\">#{$tag->getName()}</a>";
                 $text = str_replace('#'.$tag->getName(), $tagLink, $text);
             }
-
-
-    }
+        }
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
                     <time>$this->datePublication</time>
                     <p class=\"touite-content\"> {$text} </p>
                     <div class=\"vote\">
+                        <p>{$this->score}</p>
                         <!-- idTouite should be the same as the id of the touite-->
                         <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\" $hideVote><button>&#11205;</button><a></a>
                         <a href=\"?action=vote&idtouite={$this->idTouit}&value=false\" $hideVote><button>&#11206;</button></a>
@@ -271,6 +271,7 @@ class Touite {
             <p class=\"touite\">{$text}</p>
             <img src=\"{$this->srcimage}\" alt=\"$src\">
             <div class=\"vote\">
+                <p>{$this->score}</p>
                 <!-- idTouite should be the same as the id of the touite-->
                 <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\" $hideVote><button>&#11205;</button><a></a>
                 <a href=\"?action=vote&idtouite={$this->idTouit}&value=false\" $hideVote><button>&#11206;</button></a>
