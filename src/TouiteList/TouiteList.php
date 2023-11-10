@@ -78,4 +78,13 @@ class TouiteList{
         }
         return $html ;
     }
+    public function getMoyenne() : float
+    {
+        $scoreT=0;
+        for ($i =0;$i<count($this->touites);$i++)
+        {
+            $scoreT=$this->touites[$i]->getScore()+$scoreT;
+        }
+        return number_format($scoreT/count($this->touites),3);
+    }
 }
