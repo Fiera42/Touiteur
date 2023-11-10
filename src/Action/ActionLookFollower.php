@@ -26,7 +26,7 @@ class ActionLookFollower extends Action
         $html .= "<div id=\"followable\">
             <p>$listfollow</p>
         </div>";
-        
+
         return $html;
     }
 }
