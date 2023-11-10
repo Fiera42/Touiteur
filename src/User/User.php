@@ -139,7 +139,7 @@ where followtag.idFollower = ?";
         $query = "select * from followTag where idTag = ? AND idFollower = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
-        $prepared_query->bindParam(1, $td, PDO::PARAM_INT, 32);
+        $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->bindParam(2, $this->id, PDO::PARAM_INT, 32);
 
         $prepared_query->execute();
@@ -167,10 +167,10 @@ where followtag.idFollower = ?";
         $query = "insert into followTag values (? , ?)";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
-
-        $prepared_query->bindParam(1, $this->id, PDO::PARAM_STR, 32);
         $id = $target->getId();
-        $prepared_query->bindParam(2, $id, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_STR, 32);
+
+        $prepared_query->bindParam(1, $id, PDO::PARAM_STR, 32);
 
         $prepared_query->execute();
     }

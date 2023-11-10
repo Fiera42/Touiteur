@@ -9,6 +9,7 @@ use touiteur\User\Touite;
 use touiteur\User\User;
 
 class Tag{
+
     private string $name;
     private int $nbUsage;
     private int $id ;

@@ -7,9 +7,16 @@ use touiteur\User\User;
 
 class ActionUnfollowTag extends Action {
     public function execute() : string {
-        $tag=Tag::getTagFromid($_GET['idtag']); //the id of the tag we want to unfollow
-        $user->UnfollowTag($tag);
-        $_GET['action'] = "looktag";
-        return new ActionLookTag()->execute();
+        $tag=Tag::getTagFromid($_GET['idtag']); //the id of the tag we want to follow
+        if(isset($_SESSION['user'])) {
+            $user2 = $_SESSION['user'];
+            $user2->unfollowTag($tag);
+            $_GET['action'] = "looktag";
+            $action = new ActionLookTag();
+        }else{
+            $_GET['action'] = "register" ;
+            $action = new ActionRegister();
+        }
+        return $action->execute();
     }
 }
