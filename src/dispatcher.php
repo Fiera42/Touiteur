@@ -18,6 +18,7 @@ use touiteur\Action\ActionLookTouite;
 use touiteur\Action\ActionRegister;
 use touiteur\Action\ActionDisplayPage;
 use touiteur\Action\ActionPerso;
+use touiteur\Action\ActionDeconnect;
 use touiteur\Auth\ConnexionFactory;
 
 class Dispatcher {
@@ -75,6 +76,9 @@ class Dispatcher {
             case 'perso':
                 $action = new ActionPerso();
                 break;
+            case 'Deconnect':
+                $action = new ActionDeconnect();
+                break;
             default:
                 $action = new ActionDisplayPage();
                 break;
@@ -119,6 +123,7 @@ class Dispatcher {
                     <a class=\"nav\" href=\"?action=perso\"><button class=\"stylized\">pour moi</button></a>
                     <a class=\"nav\" href=\"?action={$profil}\"><button class=\"stylized\">profile</button></a>
                     <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
+                    <a class=\"nav\" href=\"?action=Deconnect\" $hidePost><button class=\"stylized\">deconnection</button></a>
                 </nav>
             
                 <aside class=\"mascotte\">
@@ -151,6 +156,7 @@ class Dispatcher {
                     <a class=\"nav\" href=\"?action=perso\"><button class=\"stylized\">pour moi</button></a>
                     <a class=\"nav\" href=\"?action={$profil}\"><button class=\"stylized\">profile</button></a>
                     <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
+                    <a class=\"nav\" href=\"?action=Deconnect\" $hidePost><button class=\"stylized\">deconnection</button></a>
                 </nav>
             
                 <aside class=\"mascotte\">

@@ -10,6 +10,8 @@ class Auth {
 
     public static function register(string $email, string $password, String $name,String $fullname, int $role = 1) : bool {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+        $name = htmlentities($name);
+        $fullname = htmlentities($fullname);
 
         ConnexionFactory::makeConnection();
         $query = "select * from touiteuruser where email = ?;";
@@ -31,6 +33,14 @@ class Auth {
         $prepared_query->bindParam(4, $password, PDO::PARAM_STR, 32);
         $prepared_query->bindParam(5, $role, PDO::PARAM_INT);
         $prepared_query->execute();
+
+        $query = "select idUser from touiteuruser where email like ?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
+        $prepared_query->execute();
+        $bdUser = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+        $_SESSION['user'] = User::getUserFromId($bdUser[0]['idUser']);
 
         return true;
     }
