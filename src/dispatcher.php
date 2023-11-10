@@ -2,7 +2,7 @@
 namespace touiteur;
 
 use touiteur\Action\ActionLookFollower;
-use touiteur\action\ActionLookTag;
+use touiteur\Action\ActionLookTag;
 use touiteur\Action\ActionLookUser;
 use touiteur\Action\ActionSearch;
 use touiteur\Action\ActionTouite;

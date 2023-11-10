@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
 
 use touiteur\User\Touite;
 use touiteur\Auth\ConnexionFactory;

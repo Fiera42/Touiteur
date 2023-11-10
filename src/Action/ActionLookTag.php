@@ -1,6 +1,6 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
 
 use touiteur\Tag\Tag;
 
@@ -9,9 +9,17 @@ class ActionLookTag extends Action {
 
         $tag = Tag::getTagFromId($_GET['idtag']);
         $name = $tag->getName() ;
-        $user2 = $_SESSION['user'];
-        $hideFollow = ($user2->isFollowingTag($_GET['idtag']))?"style='display:none'":"";
-        $hideUnFollow = ($hideFollow === "")?"style='display:none'":"";
+        if(isset($_SESSION['user'])) {
+            $user2 = $_SESSION['user'];
+            $hideFollow = ($user2->isFollowingTag($_GET['idtag']))?"style='display:none'":"";
+            $hideUnFollow = ($hideFollow === "")?"style='display:none'":"";
+        }
+        else {
+            $hideFollow = "style='display:none'";
+            $hideUnFollow = "style='display:none'";
+        }
+        
+        
             $html = "<div id=\"followable\">
             <h1>$name</h1>
 

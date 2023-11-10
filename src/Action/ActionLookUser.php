@@ -1,16 +1,19 @@
 <?php
 
-namespace touiteur\action;
+namespace touiteur\Action;
 
 use touiteur\User\User;
 
 class ActionLookUser extends Action {
     public function execute() : string {
         $user = User::getUserFromId($_GET['iduser']);; //the id of the user we want to look at
-        $user2 = $_SESSION['user'];
-        $hideFollow = ($user2->isFollowingUser($_GET['iduser']))?"style='display:none'":"";
-        $hideUnFollow = ($hideFollow === "")?"style='display:none'":"";
-        if ($_GET['iduser'] == $_SESSION['user']->getId()){
+        
+        if(isset($_SESSION['user'])) {
+            $user2 = $_SESSION['user'];
+            $hideFollow = ($user2->isFollowingTag($_GET['idtag']))?"style='display:none'":"";
+            $hideUnFollow = ($hideFollow === "")?"style='display:none'":"";
+        }
+        else {
             $hideFollow = "style='display:none'";
             $hideUnFollow = "style='display:none'";
         }

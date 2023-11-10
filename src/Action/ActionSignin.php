@@ -2,7 +2,7 @@
 
 namespace touiteur\Action;
 
-use touiteur\auth\Auth;
+use touiteur\Auth\Auth;
 use touiteur\User\User;
 
 class ActionSignin extends Action {

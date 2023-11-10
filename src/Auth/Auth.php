@@ -14,7 +14,7 @@ class Auth {
         $fullname = htmlentities($fullname);
 
         ConnexionFactory::makeConnection();
-        $query = "select * from touiteuruser where email = ?;";
+        $query = "select * from TouiteurUser where email = ?;";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
         $prepared_query->execute();
@@ -25,7 +25,7 @@ class Auth {
         if(!self::checkPasswordStrength($password, 10)){}
         $password = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
-        $query = "insert into touiteuruser (name,fullname,email, password, role) values (?, ?, ?,?,?)";
+        $query = "insert into TouiteurUser (name,fullname,email, password, role) values (?, ?, ?,?,?)";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $name, PDO::PARAM_STR, 32);
         $prepared_query->bindParam(2, $fullname, PDO::PARAM_STR, 32);
@@ -34,7 +34,7 @@ class Auth {
         $prepared_query->bindParam(5, $role, PDO::PARAM_INT);
         $prepared_query->execute();
 
-        $query = "select idUser from touiteuruser where email like ?";
+        $query = "select idUser from TouiteurUser where email like ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email, PDO::PARAM_STR, 32);
         $prepared_query->execute();
@@ -49,7 +49,7 @@ class Auth {
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         ConnexionFactory::makeConnection();
-        $query = "select password, role from touiteuruser where email = ?;";
+        $query = "select password, role from TouiteurUser where email = ?;";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $email);
         $prepared_query->execute();
@@ -58,7 +58,7 @@ class Auth {
         if(!isset($bdPass['password'])) {return false;}
         else
             if(password_verify($password, $bdPass['password'])) {
-                $query = "select iduser from touiteuruser where email = ?;";
+                $query = "select iduser from TouiteurUser where email = ?;";
                 $prepared_query = ConnexionFactory::$db->prepare($query);
                 $prepared_query->bindParam(1, $email);
                 $prepared_query->execute();

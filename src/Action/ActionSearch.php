@@ -22,7 +22,7 @@ class ActionSearch extends Action {
             $tag =$_POST['search'];
             ConnexionFactory::makeConnection();
             $pdo = ConnexionFactory::$db;
-            $query="Select idTouit from touittag natural join tag where tagname=?";
+            $query="Select idTouit from TouitTag natural join Tag where tagname=?";
             $prepared = $pdo->prepare($query);
             $prepared->bindParam(1,$tag);
             $list=new TouiteList();

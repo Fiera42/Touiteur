@@ -29,7 +29,7 @@ class User {
     function getTouit() : TouiteList {
         ConnexionFactory::makeConnection();
 
-        $query = "SELECT idtouit FROM touit where iduser = ?";
+        $query = "SELECT idtouit FROM Touit where iduser = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -51,7 +51,7 @@ class User {
         ConnexionFactory::makeConnection();
 
         $query = "select idfollower from 
-	followUser where followuser.idUser = ?";
+	FollowUser where FollowUser.idUser = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -205,7 +205,7 @@ where followtag.idFollower = ?";
     }
 
     static function getUserFromId(int $id) : User {
-        $query = "select * from touiteuruser where idUser = ?";
+        $query = "select * from TouiteurUser where idUser = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();

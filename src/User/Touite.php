@@ -34,7 +34,7 @@ class Touite {
     }
 
     static function getTouiteFromId(int $id) : Touite {
-        $query = "select * from Touit LEFT JOIN image ON Touit.idimage = image.idimage where touit.idTouit = ?";
+        $query = "select * from Touit LEFT JOIN Image ON Touit.idimage = Image.idimage where Touit.idTouit = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
@@ -94,7 +94,7 @@ class Touite {
     static function getAllTouite() : TouiteList {
         ConnexionFactory::makeConnection();
         $pdo=ConnexionFactory::$db;
-        $query="Select idtouit from touit";
+        $query="Select idtouit from Touit";
         $prepared = $pdo->prepare($query);
         $prepared->execute();
         $reponse = new TouiteList();

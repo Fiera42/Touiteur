@@ -13,13 +13,14 @@ class Autoloader {
     }
 
     public function loadclass(string $classname) : void{
+        //var_dump($classname);
         $classname = ltrim($classname);
         $classname = rtrim($classname);
 
         $filename = str_replace($this->prefixe, $this->chemin, $classname);
         $filename = str_replace('\\', '/', $filename);
         $filename = $filename.'.php';
-
+        //var_dump($filename);
         if(is_file($filename)) require_once($filename) ;
     }
 

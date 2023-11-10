@@ -25,8 +25,8 @@ class Tag{
     public function getTouiteListFromTag() :TouiteList{
         ConnexionFactory::makeConnection();
 
-        $query = "SELECT touit.iduser, touit.idtouit from touit join touittag on touit.idtouit = touittag.idtouit 
-                                                join touiteuruser on touit.iduser = touiteuruser.iduser where idtag =?";
+        $query = "SELECT Touit.iduser, Touit.idtouit from Touit join TouitTag on Touit.idtouit = TouitTag.idtouit 
+                                                join TouiteurUser on Touit.iduser = TouiteurUser.iduser where idtag =?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $id = $this->getId() ;
@@ -56,7 +56,7 @@ class Tag{
     }
 
     public static function getTagFromId(string $id) : Tag {
-        $query = "SELECT * FROM tag WHERE idtag LIKE ?";
+        $query = "SELECT * FROM Tag WHERE idtag LIKE ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
