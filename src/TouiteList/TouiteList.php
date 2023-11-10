@@ -85,6 +85,6 @@ class TouiteList{
         {
             $scoreT=$this->touites[$i]->getScore()+$scoreT;
         }
-        return $scoreT/count($this->touites);
+        return number_format($scoreT/count($this->touites),3);
     }
 }
