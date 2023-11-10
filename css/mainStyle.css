@@ -203,6 +203,7 @@ div.vote > p {
 @media (max-width:700px) {
     body {
         grid-template-columns: minmax(0px, 1fr) 95% minmax(0px,1fr);
+        overflow: scroll;
     }
 
 	nav {

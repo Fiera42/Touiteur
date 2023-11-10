@@ -329,11 +329,33 @@ class Touite {
         $prepared->bindParam(1, $this->idTouit,PDO::PARAM_STR,50);
         $prepared->execute();
 
-        $query="Delete from Touit where idTouit = ? and iduser = ?";
+        $query="select idimage from Touit where idTouit = ?";
+        $prepared = $pdo->prepare($query);
+        $prepared->bindParam(1, $this->idTouit, PDO::PARAM_STR,50);
+        $prepared->execute();
+        $res = $prepared->fetchAll(PDO::FETCH_ASSOC);
+        $idimage = $res[0]['idimage'];
+
+        $query="Delete from Touit where idTouit = ?";
         $prepared = $pdo->prepare($query);
         $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
-        $prepared-> bindParam(2,$idUser,PDO::PARAM_INT,50);
         $prepared->execute();
+
+        if(isset($res)) {
+            $query="select imagePath from image where idimage = ?";
+            $prepared = $pdo->prepare($query);
+            $prepared->bindParam(1,$idimage,PDO::PARAM_INT,50);
+            $prepared->execute();
+            $res = $prepared->fetchAll(PDO::FETCH_ASSOC);
+            $imagePath = $res[0]['imagePath'];
+
+            $query="Delete from image where idimage = ?";
+            $prepared = $pdo->prepare($query);
+            $prepared->bindParam(1,$idimage,PDO::PARAM_INT,50);
+            $prepared->execute();
+
+            unlink($imagePath);
+        }
     }
 
     public function altImage() : string {
