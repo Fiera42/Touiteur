@@ -14,10 +14,8 @@ class ActionDestroyTouite extends Action {
                 $user = $_SESSION['user'];
                 $Touite->deleteTouite($user);
             }
-        } catch (\Exception $e) {
-        }
+        } catch (\Exception $e) {}
         
-
         $_GET['action'] = '';
         $action = new ActionDisplayPage();
         return $action->execute();

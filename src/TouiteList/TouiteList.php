@@ -7,7 +7,7 @@ use touiteur\User\Touite;
 class TouiteList{
     private array $touites;
     private int $nbTouitePerPage;
-    public function __construct(array $touite = [], int $nbTouitePerPage = 2 ){
+    public function __construct(array $touite = [], int $nbTouitePerPage = 5){
         $this->touites = $touite ;
         $this->nbTouitePerPage = $nbTouitePerPage;
     }
@@ -91,5 +91,12 @@ class TouiteList{
             $scoreT=$this->touites[$i]->getScore()+$scoreT;
         }
         return number_format($scoreT/count($this->touites),3);
+    }
+
+    public function merge(TouiteList $list) : void {
+        $touits = $list->touites;
+        foreach($touits as $touit) {
+            $this->addTouite($touit);
+        }
     }
 }

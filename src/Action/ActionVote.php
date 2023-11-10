@@ -14,9 +14,9 @@ class ActionVote extends Action {
             $user=($_SESSION['user']);
             $touite->evaluateTouite($user,$bool);
         }
-        
         $_GET['action'] = "";
         $action= new ActionDisplayPage();
         return $action->execute();
+        
     }
 }

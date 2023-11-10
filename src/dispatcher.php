@@ -181,7 +181,6 @@ class Dispatcher {
                 </div>
             </body>
             <html>";
-
             echo $html;
         }
     }

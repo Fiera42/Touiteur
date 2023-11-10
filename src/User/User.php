@@ -76,7 +76,7 @@ class User {
     function getFollowing() : array{
         ConnexionFactory::makeConnection();
 
-        $query = "select email , password , role from TouiteurUser join
+        $query = "select touiteuruser.idUser from TouiteurUser join
 	followUser on touiteuruser.idUser = followuser.idUser
 where followuser.idFollower = ?";
 
@@ -91,7 +91,7 @@ where followuser.idFollower = ?";
         $listFollow = [];
 
         foreach ($res as $row){
-            $follow = new User($row['email'] , $row['password'] , $row['role']);
+            $follow = User::getUserFromId($row['idUser']);
             $listFollow[] = $follow ;
         }
 
@@ -101,7 +101,7 @@ where followuser.idFollower = ?";
     function getFollowedTag() : array{
         ConnexionFactory::makeConnection();
 
-        $query = "select tagName from Tag join
+        $query = "select tag.idtag from Tag join
 	followtag on tag.idtag = followtag.idTag
 where followtag.idFollower = ?";
 
@@ -116,7 +116,7 @@ where followtag.idFollower = ?";
         $listTag = [];
 
         foreach ($res as $row){
-            $tag = new Tag($row['name']);
+            $tag = Tag::getTagFromId($row['idtag']);
             $listTag[] = $tag ;
         }
         return $listTag  ;

@@ -9,7 +9,7 @@ class ActionLookFollower extends Action
 
     public function execute(): string
     {
-        $user = User::getUserFromId($_GET['iduser']);; //the id of the user we want to look at
+        $user = User::getUserFromId($_GET['iduser']); //the id of the user we want to look at
 
         $listfollow = "" ;
         foreach ($user->getFollower() as $follow){
