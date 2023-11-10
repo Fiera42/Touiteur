@@ -136,20 +136,21 @@ class Touite {
         $list = Touite::findTag($t);
         
         foreach ($list as $value) {
+            $value = str_replace("'", "\'", $value);
             if($value == "") continue;
             $prepared->bindParam(1,$value,PDO::PARAM_STR,50);
             $prepared->execute();
             $dbResponse = $prepared->fetchAll(PDO::FETCH_ASSOC);
-            $dbResponse = $dbResponse[0]['idtag'];
 
             $value = htmlentities($value);
 
-            if(isset($dbResponse)) {
+            if(count($dbResponse) > 0) {
+                $dbResponse = $dbResponse[0]['idtag'];
                 $insertTag = $pdo->prepare("Update tag set nbusage = nbusage + 1 where idtag = $dbResponse");
                 $insertTag->execute();
             }
             else {
-                $insertTag = $pdo->prepare("Insert into Tag (tagName, description, nbUsage) values (?,'des touites parlant de '.$value,1)");
+                $insertTag = $pdo->prepare("Insert into Tag (tagName, description, nbUsage) values (?,'des touites parlant de $value',1)");
                 $insertTag->bindParam(1,$value, PDO::PARAM_STR, 50);
                 $insertTag->execute();
             }
@@ -286,13 +287,52 @@ class Touite {
         return $rep;
     }
 
-    public function deleteTouite(User $auth)
-    {
-        $pdo=ConnexionFactory::makeconexion();
+    public function deleteTouite(User $auth) {
+        ConnexionFactory::makeConnection();
+        $pdo=ConnexionFactory::$db;
+
+        foreach($this->tags as $key=>$value) {
+
+            $value = $value->getId();
+
+            $query="delete from touittag where idtag LIKE ?";
+            $prepared = $pdo->prepare($query);
+            $prepared->bindParam(1, $value,PDO::PARAM_STR,50);
+            $prepared->execute();
+
+            $query="select * from tag where idtag LIKE ?";
+            $prepared = $pdo->prepare($query);
+            $prepared->bindParam(1, $value, PDO::PARAM_STR,50);
+            $prepared->execute();
+            $res = $prepared->fetchAll(PDO::FETCH_ASSOC);
+            $res = $res[0]['nbUsage'] - 1;
+
+            if($res <= 0) {
+                $query="delete from tag where idtag LIKE ?";
+                $prepared = $pdo->prepare($query);
+                $prepared->bindParam(1, $value,PDO::PARAM_STR,50);
+                $prepared->execute();
+            }
+
+            else {
+                $query="Update tag set nbusage = nbusage - 1 where idtag LIKE ?";
+                $prepared = $pdo->prepare($query);
+                $prepared->bindParam(1, $value,PDO::PARAM_STR,50);
+                $prepared->execute();
+            }
+        }
+
+        $idUser = $auth->getId();
+
+        $query="delete from votetouit where idtouit = ?";
+        $prepared = $pdo->prepare($query);
+        $prepared->bindParam(1, $this->idTouit,PDO::PARAM_STR,50);
+        $prepared->execute();
+
         $query="Delete from Touit where idTouit = ? and iduser = ?";
         $prepared = $pdo->prepare($query);
         $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
-        $prepared-> bindParm(2,$auth->getId(),PDO::PARAM_INT,50);
+        $prepared-> bindParam(2,$idUser,PDO::PARAM_INT,50);
         $prepared->execute();
     }
 

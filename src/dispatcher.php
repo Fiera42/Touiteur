@@ -40,7 +40,7 @@ class Dispatcher {
             case 'vote':
                 $action = new ActionVote();
                 break;
-            case 'destroytouite':
+            case 'destroyTouite':
                 $action = new ActionDestroyTouite();
                 break;
             case 'changepage':
