@@ -3,7 +3,9 @@ INSERT INTO TouiteurUser (idUser, role, name, fullname, email , password)
 VALUES
 (1, '1', 'Michel', 'Drucker', 'm.drucker@gmail.com' , 'mdp'),
 (2, '1', 'Patrique', 'Sébastien', 'PatSeb@gmail.com' , 'pierre'),
-(3, '1', 'Patrique', 'Balkany', 'Balka239@laposte.net' , 'tartiflette');
+(3, '1', 'Patrique', 'Balkany', 'Balka239@laposte.net' , 'tartiflette'),
+(4, '1', 'User', 'User', 'User@mail.com' , '$2y$12$I5gYlJBy2lZOjiLs5B1KFOPwOfWxHlncXJ9p75XUfl15jWSeSGRCC'),
+(5, '100', 'Admin', 'Admin', 'Admin@admin.com' , '$2y$12$P8Z8ZJG6IQZFzOIX6ycwBu7GECZqKPDx3QlwXOgLcONJU4udvD9Jm');
 
 -- Insertion de données dans la table Image
 INSERT INTO Image (idimage, altImage, imagePath)
@@ -13,10 +15,10 @@ VALUES
 -- Insertion de données dans la table Touit
 INSERT INTO Touit (idtouit, idUser, text, date, note, idimage)
 VALUES
-(1, 1, 'Salut à tous c''est michel drucker, le vrai, pas du tout une copie', '2023-11-06', 1, null),
-(2, 3, 'Incroyable, michel, moi aussi je suis le vrai Patrique balkany', '2023-11-06', -1, null),
-(3, 2, 'Voici la pochette de mon nouvel album', '2023-11-06', 2, 1),
-(4, 2, 'Préparez vous pour de la bonne #musique #onfire', '2023-11-6', 2, 1);
+(1, 1, 'Salut à tous c''est michel drucker, le vrai, pas du tout une copie', '2023-10-06', 1, null),
+(2, 3, 'Incroyable, michel, moi aussi je suis le vrai Patrique balkany', '2023-10-06', -1, null),
+(3, 2, 'Voici la pochette de mon nouvel album #musique', '2023-10-06', 2, 1),
+(4, 2, 'Préparez vous pour de la bonne #musique #onfire', '2023-10-6', 2, 1);
 
 -- Insertion de données dans la table Tag
 INSERT INTO Tag (idtag, tagName, description, nbUsage)
@@ -40,7 +42,9 @@ VALUES
 -- Insertion de données dans la table TouitTag
 INSERT INTO TouitTag (idtouit, idtag)
 VALUES
-(3, 1);
+(3, 1),
+(4, 1),
+(4, 2);
 
 -- Insertion de données dans la table VoteTouit
 INSERT INTO VoteTouit (idUser, idtouit, eval)
