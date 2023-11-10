@@ -68,16 +68,18 @@ class Touite {
     static function findTag(String $text) : array
     {
         $text=$text." ";
-        $tag[0]=(substr($text,strpos($text, '#')));
-        $reponse[0] = substr($tag[0], 1);
-        $res[0] = substr($reponse[0], 0, strpos($reponse[0], ' '));
-        $i=1;
-        while ($tag[$i-1]!='' and strpos($reponse[$i-1], '#')!=null) {
-            $tag[$i]=(substr($reponse[$i-1],strpos($reponse[$i-1], '#')));
-            $reponse[$i]=substr($tag[$i], 1);
-            $res[$i] = substr($reponse[$i],0,strpos($reponse[$i], ' '));
-            $i++;
-        }
+        if (str_contains($text,'#')){
+            $tag[0]=(substr($text,strpos($text, '#')));
+            $reponse[0] = substr($tag[0], 1);
+            $res[0] = substr($reponse[0], 0, strpos($reponse[0], ' '));
+            $i=1;
+            while ($tag[$i-1]!='' and strpos($reponse[$i-1], '#')!=null) {
+                $tag[$i]=(substr($reponse[$i-1],strpos($reponse[$i-1], '#')));
+                $reponse[$i]=substr($tag[$i], 1);
+                $res[$i] = substr($reponse[$i],0,strpos($reponse[$i], ' '));
+                $i++;
+            }
+        }else $res[0]="";
         return $res;
     }
 
