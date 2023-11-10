@@ -174,18 +174,18 @@ class Touite {
     {
         ConnexionFactory::makeConnection();
         $pdo=ConnexionFactory::$db;
-        $query="Select count(eval) as nbVote from VoteTouit where iduser = ? and idTouit = ?";
+        $query="Select count(eval) from VoteTouit where iduser = ? and idTouit = ?";
         $prepared = $pdo->prepare($query);
-        $userid = $user->getId();
-        $prepared->bindParam(1,$userid,PDO::PARAM_INT,50);
+        $id = $user->getId();
+        $prepared->bindParam(1, $id,PDO::PARAM_INT,50);
         $prepared->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
         $prepared->execute();
         $donne=$prepared->fetch();
-        if ($donne['nbVote']==0) {
-            if ($eval) {
+        if ($donne[0]==0) {
+            if ($eval == "TRUE") {
                 $this->score++;
                 $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
-                $preparedquery->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
+                $preparedquery->bindParam(1, $id,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
@@ -195,7 +195,7 @@ class Touite {
             } else {
                 $this->score--;
                 $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
-                $preparedquery->bindParam(1,$user->getId(),PDO::PARAM_INT,50);
+                $preparedquery->bindParam(1, $id,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(2,$this->idTouit,PDO::PARAM_INT,50);
                 $preparedquery->bindParam(3,$eval,PDO::PARAM_BOOL,50);
                 $preparedquery->execute();
@@ -205,6 +205,7 @@ class Touite {
             }
         }else echo "vous avez deja voter pour ce touite";
     }
+
     public function displaySimple() : string {
 
         if(isset($_SESSION['user'])) {
