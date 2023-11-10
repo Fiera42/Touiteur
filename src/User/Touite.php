@@ -154,7 +154,7 @@ class Touite {
 
             if(count($dbResponse) > 0) {
                 $dbResponse = $dbResponse[0]['idtag'];
-                $insertTag = $pdo->prepare("Update tag set nbusage = nbusage + 1 where idtag = $dbResponse");
+                $insertTag = $pdo->prepare("Update tag set nbusage = nbusage + 1 where tagname = $dbResponse");
                 $insertTag->execute();
             }
             else {
