@@ -78,7 +78,7 @@ class TouiteList{
         }
         return $html ;
     }
-    public function getMoyenne()
+    public function getMoyenne() : float
     {
         $scoreT=0;
         for ($i =0;$i<count($this->touites);$i++)
