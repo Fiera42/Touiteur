@@ -151,7 +151,7 @@ class Dispatcher {
                     <!-- NOTE : only visible for connected user-->
                     <form class=\"post\" method=\"post\" action=\"?action=touite\" enctype=\"multipart/form-data\" {$hidePost}>
                         <h2>Envoyer un touite</h2>
-                        <textarea name=\"text\" maxlength=\"235\" placeholder=\"Votre incroyable touite ici\"> </textarea>
+                        <textarea name=\"text\" maxlength=\"235\" placeholder=\"Votre incroyable touite ici\" required> </textarea>
                         <input type=\"file\" name=\"img\">
                         <input type=\"text\" name=\"img_desc\" placeholder=\"Une description de votre image\">
                         <button type=\"submit\">Envoyer le touite</button>
@@ -161,9 +161,9 @@ class Dispatcher {
                     <form class=\"connection\" method=\"post\" action=\"?action=sign-in\" {$hideConnection}>
                         <h2>Se connecter</h2>
                         <p>Email</p>
-                        <input type=\"email\" name=\"email\" placeholder=\"Email\">
+                        <input type=\"email\" name=\"email\" placeholder=\"Email\" required>
                         <p>Mot de passe</p>
-                        <input type=\"password\" name=\"password\" placeholder=\"Mot de passe\">
+                        <input type=\"password\" name=\"password\" placeholder=\"Mot de passe\" required>
                         <button type=\"submit\">Connexion</button>
                         <a href=\"?action=register\">Créé un compte</a>
                     </form>
