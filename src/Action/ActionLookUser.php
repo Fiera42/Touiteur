@@ -10,7 +10,11 @@ class ActionLookUser extends Action {
         $user2 = $_SESSION['user'];
         $hideFollow = ($user2->isFollowingUser($_GET['iduser']))?"style='display:none'":"";
         $hideUnFollow = ($hideFollow === "")?"style='display:none'":"";
-        
+        if ($_GET['iduser'] == $_SESSION['user']->getId()){
+            $hideFollow = "style='display:none'";
+            $hideUnFollow = "style='display:none'";
+        }
+
         $html="<div id=\"followable\">
             <h1>{$user->getDisplayName()}</h1>
 
