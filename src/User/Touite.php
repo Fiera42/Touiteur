@@ -136,6 +136,7 @@ class Touite {
         $list = Touite::findTag($t);
         
         foreach ($list as $value) {
+            if($value == "") continue;
             $prepared->bindParam(1,$value,PDO::PARAM_STR,50);
             $prepared->execute();
             $dbResponse = $prepared->fetchAll(PDO::FETCH_ASSOC);
