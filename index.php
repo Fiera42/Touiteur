@@ -3,7 +3,7 @@
 //----------------------Autoload
 
 use \touiteur\Auth\ConnexionFactory;
-use \touiteur\dispatcherAdmin;
+use \touiteur\dispatcher;
 
 require_once 'src/Loader/Autoloader.php';
 
@@ -19,6 +19,6 @@ ConnexionFactory::makeConnection();
 
 session_start();
 
-dispatcherAdmin::run();
+dispatcher::run();
 
 //---------------------------------------
