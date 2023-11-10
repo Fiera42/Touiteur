@@ -11,6 +11,7 @@ class ActionDestroyTouite extends Action {
         $user= User::getUserFromId($_SESSION['iduser']);
         $Touite->deleteTouite($user);
         $_GET['action'] = '';
-        return new ActionDisplayPage()->execute();
+        $action = new ActionDisplayPage();
+        return $action->execute();
     }
 }
