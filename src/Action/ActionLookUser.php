@@ -32,8 +32,8 @@ class ActionLookUser extends Action {
         </div>";
 
         
-        $touitList = $user->getTouit();
-        $html .= $touitList->displayAllTouites() ;
+        $_SESSION['touites'] = $user->getTouit();
+        $html .= $_SESSION['touites']->displayPage(1) ;
         return $html;
     }
 }

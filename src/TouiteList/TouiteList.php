@@ -7,9 +7,16 @@ use touiteur\User\Touite;
 class TouiteList{
     private array $touites;
     private int $nbTouitePerPage;
+    private int $currentPage;
+
     public function __construct(array $touite = [], int $nbTouitePerPage = 5){
         $this->touites = $touite ;
         $this->nbTouitePerPage = $nbTouitePerPage;
+        $this->currentPage = 1;
+    }
+
+    public function getTouites() {
+        return $this->touites;
     }
 
     function cmp($a, $b) {
@@ -36,13 +43,15 @@ class TouiteList{
         return $res;
     }
     
-    public function displayPage(int $page) : string{
+    public function displayPage(int $page = -1) : string{
+        $page = filter_var($page, FILTER_SANITIZE_NUMBER_INT);
+
+        if($page == -1) $page = $this->currentPage;
+
         $nbpage =  ceil((count($this->touites) / $this->nbTouitePerPage));
 
-        //Vérification de la page, cela doit être une page valide + faire protection injection html
         if ($page <= 0 || $page > $nbpage){
-            header('HTTP/1.0 404 Not Found');
-            $html = "" ;
+            $page = 1;
         }
 
         else
@@ -81,7 +90,14 @@ class TouiteList{
                     <a href=\"?action=changepage&page={$nextPage}\" {$hideNextBtn}><button>&#129034;</button></a>
                 </div>";
         }
+
+        $this->currentPage = $page;
+
         return $html ;
+    }
+
+    public function getCurrentPage() {
+        return $this->currentPage;
     }
     public function getMoyenne() : float
     {

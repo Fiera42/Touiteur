@@ -52,6 +52,8 @@ class ActionTouite extends Action {
             }
         }
 
+        $_POST['text'] = htmlentities($_POST['text']);
+
         if(isset($idimage)) Touite::publishTouite($_SESSION['user'], $_POST['text'], $idimage);
         else Touite::publishTouite($_SESSION['user'], $_POST['text']);
 

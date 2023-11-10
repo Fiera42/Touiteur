@@ -21,8 +21,8 @@ class ActionLookTag extends Action {
             <a class=\"tag\" href=\"?action=unfollowtag&idtag=".$_GET['idtag']."\"$hideUnFollow><button class=\"stylized\">Ne plus suivre</button></a>
         </div>";
             $tag = Tag::getTagFromId($_GET['idtag']);
-            $touitList = $tag->getTouiteListFromTag();
-            $html .= $touitList->displayAllTouites() ;
+            $_SESSION['touites'] = $tag->getTouiteListFromTag();
+            $html .= $_SESSION['touites']->displayPage(1) ;
             return $html;
 
     }

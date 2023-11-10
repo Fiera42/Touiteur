@@ -197,6 +197,7 @@ class Touite {
 
                 $prepared=$pdo->prepare("Update Touit set note=note+1 where idTouit=$this->idTouit");
                 $prepared->execute();
+                $this->score += 1;
             } else {
                 $this->score--;
                 $preparedquery = $pdo->prepare("insert into VoteTouit values (?,?,?)");
@@ -207,6 +208,7 @@ class Touite {
 
                 $prepared=$pdo->prepare("Update Touit set note=note-1 where idTouit=$this->idTouit");
                 $prepared->execute();
+                $this->score -= 1;
             }
         }else {}
     }
@@ -350,7 +352,7 @@ class Touite {
         $prepared->bindParam(1,$this->idTouit,PDO::PARAM_INT,50);
         $prepared->execute();
 
-        if(count($res) > 0) {
+        if(count($res) > 0 && isset($res[0]) && isset($res[0]['idimage']) && $res[0]['idimage'] != null) {
             $query="select imagePath from image where idimage = ?";
             $prepared = $pdo->prepare($query);
             $prepared->bindParam(1,$idimage,PDO::PARAM_INT,50);
@@ -395,5 +397,9 @@ class Touite {
         $prepared_query->bindParam(2, $this->idTouit, PDO::PARAM_STR, 32);
         $prepared_query->execute();
         return isset($prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]);
+    }
+
+    public function getId() {
+        return $this->idTouit;
     }
 }
