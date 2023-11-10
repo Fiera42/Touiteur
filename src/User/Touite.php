@@ -347,4 +347,12 @@ class Touite {
             return  "" ;
         }
     }
+
+    /**
+     * @return int
+     */
+    public function getScore(): int
+    {
+        return $this->score;
+    }
 }
