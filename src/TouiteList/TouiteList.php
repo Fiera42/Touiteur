@@ -12,10 +12,15 @@ class TouiteList{
         $this->nbTouitePerPage = $nbTouitePerPage;
     }
 
-    public function addTouite(Touite $touite){
-        array_push($this->touites, $touite);
+    function cmp($a, $b) {
+        return strcmp($b->datePublication, $a->datePublication);
     }
 
+    public function addTouite(Touite $touite){
+        array_push($this->touites, $touite);
+        usort($this->touites, [TouiteList::class, "cmp"]);
+    }
+    
     public function removeTouite(Touite $touite){
         if (($key = array_search($touite, $this->touites)) !== false) {
             unset($this->touites[$key]);

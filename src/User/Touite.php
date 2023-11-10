@@ -16,7 +16,7 @@ class Touite {
     private User $author;
     private String $texte;
     private String $srcimage;
-    private String $datePublication;
+    public String $datePublication;
     private array $tags;
     private int $score;
     private int $idTouit;
@@ -174,10 +174,6 @@ class Touite {
             $insertTag->execute();
         }
     }
-        
-        
-
-
 
     public function evaluateTouite(User $user,bool $eval)
     {

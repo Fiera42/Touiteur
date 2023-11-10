@@ -88,16 +88,17 @@ where followuser.idFollower = ?";
 
         $res = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
 
-        $listFollow = null;
+        $listFollow = [];
 
         foreach ($res as $row){
             $follow = new User($row['email'] , $row['password'] , $row['role']);
             $listFollow[] = $follow ;
         }
+
         return $listFollow ;
     }
 
-    function getFollowedTag(){
+    function getFollowedTag() : array{
         ConnexionFactory::makeConnection();
 
         $query = "select tagName from Tag join
@@ -112,7 +113,7 @@ where followtag.idFollower = ?";
 
         $res = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
 
-        $listTag = null;
+        $listTag = [];
 
         foreach ($res as $row){
             $tag = new Tag($row['name']);

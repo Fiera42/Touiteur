@@ -17,6 +17,7 @@ use touiteur\Action\ActionUnfollowUser;
 use touiteur\Action\ActionLookTouite;
 use touiteur\Action\ActionRegister;
 use touiteur\Action\ActionDisplayPage;
+use touiteur\Action\ActionPerso;
 use touiteur\Auth\ConnexionFactory;
 
 class Dispatcher {
@@ -71,6 +72,9 @@ class Dispatcher {
             case 'lookfollower':
                 $action = new ActionLookFollower();
                 break;
+            case 'perso':
+                $action = new ActionPerso();
+                break;
             default:
                 $action = new ActionDisplayPage();
                 break;
@@ -112,6 +116,7 @@ class Dispatcher {
             
                 <nav class=\"nav\">
                     <a class=\"nav\" href=\"?\"><button class=\"stylized\">home</button></a>
+                    <a class=\"nav\" href=\"?action=perso\"><button class=\"stylized\">pour moi</button></a>
                     <a class=\"nav\" href=\"?action={$profil}\"><button class=\"stylized\">profile</button></a>
                     <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
                 </nav>
@@ -143,6 +148,7 @@ class Dispatcher {
             
                 <nav class=\"nav\">
                     <a class=\"nav\" href=\"?\"><button class=\"stylized\">home</button></a>
+                    <a class=\"nav\" href=\"?action=perso\"><button class=\"stylized\">pour moi</button></a>
                     <a class=\"nav\" href=\"?action={$profil}\"><button class=\"stylized\">profile</button></a>
                     <a class=\"nav\" href=\"?action=search\"><button class=\"stylized\">search</button></a>
                 </nav>
