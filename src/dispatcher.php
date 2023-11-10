@@ -1,6 +1,7 @@
 <?php
 namespace touiteur;
 
+use touiteur\Action\ActionLookFollower;
 use touiteur\action\ActionLookTag;
 use touiteur\Action\ActionLookUser;
 use touiteur\Action\ActionSearch;
@@ -67,6 +68,9 @@ class Dispatcher {
             case 'register':
                 $action = new ActionRegister();
                 break;
+            case 'lookfollower':
+                $action = new ActionLookFollower();
+                break;
             default:
                 $action = new ActionDisplayPage();
                 break;
@@ -83,7 +87,7 @@ class Dispatcher {
         $hideConnection = (isset($_SESSION['user']))?"style='display:none'":"";
         $hidePost = (!isset($_SESSION['user']))?"style='display:none'":"";
 
-        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite" || $_GET['action'] == "search") {
+        if($_GET['action'] == "lookUser" || $_GET['action'] == "looktag" || $_GET['action'] == "looktouite" || $_GET['action'] == "search" || $_GET['action'] == "lookfollower") {
             $hideConnection = "style='display:none'";
             $hidePost = "style='display:none'";
         }

@@ -50,9 +50,8 @@ class User {
     function getFollower() : array{
         ConnexionFactory::makeConnection();
 
-        $query = "select email , password , role from TouiteurUser join
-	followUser on touiteuruser.idUser = followuser.idFollower
-where followuser.idUser = ?";
+        $query = "select idfollower from 
+	followUser where followuser.idUser = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -61,12 +60,13 @@ where followuser.idUser = ?";
         $prepared_query->execute();
 
         $res = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
-
-        $listFollow = null;
-
-        foreach ($res as $row){
-            $follow = new User($row['email'] , $row['password'] , $row['role']);
-            $listFollow[] = $follow ;
+        if(empty($res)){
+            $listFollow[] = "" ;
+        }else {
+            foreach ($res as $row) {
+                $follow = User::getUserFromId($row['idfollower']);
+                $listFollow[] = $follow;
+            }
         }
         return $listFollow ;
 
@@ -217,7 +217,8 @@ where followtag.idFollower = ?";
         return $this->id;
     }
 
-    public function getDisplayName() {
+    public function getDisplayName(): string
+    {
         return $this->name." ".$this->fullname;
     }
 
