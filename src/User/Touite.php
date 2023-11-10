@@ -224,6 +224,9 @@ class Touite {
                 $text = str_replace('#'.$tag->getName(), $tagLink, $text);
             }
         }
+        if($this->liked($_SESSION['user'])){
+            $hideVote = "style='display:none'";
+        }
 
         $html = "<div class=\"touite\" onclick=\"location.href='?action=looktouite&idtouite={$this->idTouit}'\">
                     <a class=\"touite-userName\" href=\"?action=lookUser&iduser={$this->author->getId()}\">{$this->author->getDisplayName()}</a>
@@ -376,5 +379,15 @@ class Touite {
     public function getScore(): int
     {
         return $this->score;
+    }
+
+    public function liked(User $user){
+        $query = "SELECT * FROM votetouit WHERE iduser=? and idtouit=?";
+        $prepared_query = ConnexionFactory::$db->prepare($query);
+        $idu = $user->getId();
+        $prepared_query->bindParam(1, $idu, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(2, $this->idTouit, PDO::PARAM_STR, 32);
+        $prepared_query->execute();
+        return isset($prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]);
     }
 }
