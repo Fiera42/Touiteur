@@ -24,6 +24,13 @@ class ActionLookUser extends Action {
             <a class=\"user\" href=\"?action=unfollowuser&iduser=".$_GET['iduser']."\" $hideUnFollow><button class=\"stylized\">Ne plus suivre</button></a>
         </div>";
 
+        $html .= "<div id=\"followable\">
+
+            <!-- when the user is not connected, hide -->
+            <a class=\"user\" href=\"?action=lookfollower&iduser=".$_GET['iduser']."\"><button class=\"stylized\">Follower</button></a>
+            <!-- when the user is following this user, we change the button to this-->
+        </div>";
+
         
         $touitList = $user->getTouit();
         $html .= $touitList->displayAllTouites() ;
