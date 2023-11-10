@@ -8,6 +8,7 @@ use touiteur\Auth\Auth;
 use touiteur\Auth\ConnexionFactory;
 use touiteur\TouiteList\TouiteList;
 use touiteur\Tag\Tag;
+use Exception;
 
 //var_dump(Touite::findTag("Ceci #est une #phrase-de-test"));
 
@@ -37,8 +38,15 @@ class Touite {
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
-        $touit = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
 
+        $result = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($result)) {
+            throw new Exception("Aucun touite trouvé");
+        }
+
+        $touit = $result[0];
+        
         if(!isset($touit['imagePath'])) {
             $touit['imagePath'] = "";
         }
