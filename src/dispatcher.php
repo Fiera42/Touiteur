@@ -149,7 +149,7 @@ class Dispatcher {
             
                 <div id=\"feed\">
                     <!-- NOTE : only visible for connected user-->
-                    <form class=\"post\" method=\"post\" action=\"?action=touite\" {$hidePost}>
+                    <form class=\"post\" method=\"post\" action=\"?action=touite\" enctype=\"multipart/form-data\" {$hidePost}>
                         <h2>Envoyer un touite</h2>
                         <textarea name=\"text\" maxlength=\"235\" placeholder=\"Votre incroyable touite ici\"> </textarea>
                         <input type=\"file\" name=\"img\">

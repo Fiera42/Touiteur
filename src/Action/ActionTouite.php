@@ -3,6 +3,8 @@
 namespace touiteur\action;
 
 use touiteur\User\Touite;
+use touiteur\Auth\ConnexionFactory;
+use PDO;
 
 class ActionTouite extends Action {
     public function execute() : string {
