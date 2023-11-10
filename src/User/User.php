@@ -121,7 +121,8 @@ where followtag.idFollower = ?";
         return $listTag  ;
     }
 
-    function isFollowingUser($id) {
+    function isFollowingUser($id): bool
+    {
         $query = "select * from followUser where idUser = ? AND idFollower = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -133,7 +134,8 @@ where followtag.idFollower = ?";
         return isset($prepared_query->fetchAll(PDO::FETCH_ASSOC)[0]);
     }
 
-    function isFollowingTag($id) {
+    function isFollowingTag($id): bool
+    {
         $query = "select * from followTag where idTag = ? AND idFollower = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
@@ -153,8 +155,8 @@ where followtag.idFollower = ?";
 
         $prepared_query = ConnexionFactory::$db->prepare($query);
 
-        $prepared_query->bindParam(1, $this->id, PDO::PARAM_STR, 32);
-        $prepared_query->bindParam(2, $target->id, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(2, $this->id, PDO::PARAM_STR, 32);
+        $prepared_query->bindParam(1, $target->id, PDO::PARAM_STR, 32);
 
         $prepared_query->execute();
     }
