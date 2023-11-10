@@ -71,7 +71,7 @@ ALTER TABLE FollowTag
       REFERENCES tag (idTag);
 
 ALTER TABLE FollowTag
-   ADD CONSTRAINT FK_suivtag_uti FOREIGN KEY (idtag)
+   ADD CONSTRAINT FK_suivtag_uti FOREIGN KEY (idfollower)
       REFERENCES TouiteurUser (idUser);
 
 ALTER TABLE TouitTag
