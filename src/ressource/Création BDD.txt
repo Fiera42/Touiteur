@@ -3,7 +3,7 @@ create table TouiteurUser (
 	role varchar(10) not null,
 	name varchar(20) not null,
 	fullname varchar(20) not null,
-	email varchar(30) not null,
+	email varchar(300) not null,
 	password varchar(300) not null
 	);
 
