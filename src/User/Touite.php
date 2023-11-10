@@ -294,7 +294,6 @@ class Touite {
                 <a href=\"?action=destroyTouite&idtouite={$this->idTouit}\" {$hideDelete}><button>&#9587;</button></a>
             </div>
         </div>";
-
         return $rep;
     }
 
