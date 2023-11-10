@@ -206,7 +206,10 @@ class Touite {
     }
     public function displaySimple() : string {
 
-        if(isset($_SESSION['user'])) {$hideVote='';$hideDelete = ($this->author->getId() == $_SESSION['user']->getId())?"style='display:none'":"";}
+        if(isset($_SESSION['user'])) {
+            $hideVote='';
+            $hideDelete = ($this->author->getId() != $_SESSION['user']->getId())?"style='display:none'":"";
+        }
         else {
             $hideDelete = "style='display:none'";
             $hideVote = "style='display:none'";
@@ -241,6 +244,15 @@ class Touite {
 
     public function displayDetaille() :string
     {
+        if(isset($_SESSION['user'])) {
+            $hideVote='';
+            $hideDelete = ($this->author->getId() != $_SESSION['user']->getId())?"style='display:none'":"";
+        }
+        else {
+            $hideDelete = "style='display:none'";
+            $hideVote = "style='display:none'";
+        }
+
         $text = $this->texte ;
         if (!empty($this->tags)) {
             foreach ($this->tags as $tag) {
@@ -260,8 +272,12 @@ class Touite {
             <img src=\"{$this->srcimage}\" alt=\"$src\">
             <div class=\"vote\">
                 <!-- idTouite should be the same as the id of the touite-->
-                <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\"><button>&#11205;</button></a>
-                <a href=\"?action=vote&idtouite={$this->idTouit}&value=false\"><button>&#11206;</button></a>
+                <a href=\"?action=vote&idtouite={$this->idTouit}&value=true\" $hideVote><button>&#11205;</button><a></a>
+                <a href=\"?action=vote&idtouite={$this->idTouit}&value=false\" $hideVote><button>&#11206;</button></a>
+
+                <!-- only show this if it's a touite of the user -->
+                <!-- ofc still check if it's the good user when clicking -->
+                <a href=\"?action=destroyTouite&idtouite={$this->idTouit}\" {$hideDelete}><button>&#9587;</button></a>
             </div>
         </div>";
 
