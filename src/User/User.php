@@ -230,4 +230,9 @@ where followtag.idFollower = ?";
         return $this->name." ".$this->fullname;
     }
 
+    public function getRole(): int
+    {
+        return $this->role ;
+    }
+
 }
