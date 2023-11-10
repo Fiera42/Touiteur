@@ -208,7 +208,14 @@ where followtag.idFollower = ?";
         $prepared_query = ConnexionFactory::$db->prepare($query);
         $prepared_query->bindParam(1, $id, PDO::PARAM_INT, 32);
         $prepared_query->execute();
-        $user = $prepared_query->fetchAll(PDO::FETCH_ASSOC)[0];
+
+        $result = $prepared_query->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($result)) {
+            throw new Exception("Aucun utilisateur trouvé");
+        }
+        
+        $user = $result[0];
 
         return new User($id, $user['email'], $user['name'], $user['fullname'], $user['password'], $user['role']);
     }
