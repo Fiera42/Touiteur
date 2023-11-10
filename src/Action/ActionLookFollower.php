@@ -15,7 +15,7 @@ class ActionLookFollower extends Action
         foreach ($user->getFollower() as $follow){
             if($follow == "") continue;
             $name = $follow->getDisplayName() ;
-            $listfollow.= $name."\n";
+            $listfollow.="- ".$name."<br>";
         }
 
         $html="<div id=\"followable\">
@@ -26,7 +26,7 @@ class ActionLookFollower extends Action
         $html .= "<div id=\"followable\">
             <p>$listfollow</p>
         </div>";
-        
+
         return $html;
     }
 }
